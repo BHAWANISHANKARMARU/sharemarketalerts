@@ -1,0 +1,51 @@
+# Market Coverage Verification Evidence
+
+**Date:** 2026-08-03
+
+## Existing-section invariant baseline
+
+These SHA-256 values were recorded before Market Coverage implementation and matched again after the final implementation:
+
+    04f0879a5f1b2551edc0d0ed3d1485f915ee0498e2eee1b438564d97da7566ee  src/app/components/Hero.js
+    2a5cc9f391a567d6161907363f13ad2128a4a3aa3844186e658748b669efecd5  src/app/components/Hero.module.css
+    edec8a22d54d37dff0319bd58a106db09b298325bfd9b8b8ec964254c5dd27f7  src/app/components/IpoMarketIntelligence.js
+    ff68b91db6f260ae4559a3b99b4ee0dba663e2070ff7720fbc5daa3c1665c1fa  src/app/components/IpoMarketIntelligence.module.css
+    6a485cc526de80339c787336792d3878ab72ba4826ea1502c891a951a08d2144  src/app/components/HowItWorks.js
+    d2c0d3d16ecd60d4c93e8e54666a263ec58299b4ed4c8b7d88b5cd207375aef0  src/app/components/HowItWorks.module.css
+    2b665f1b23d1a5b7f73180a502c77699d446c244f4043dfe776886f07064bc42  src/app/components/WhatYouReceive.js
+    ca156c58bbd1e86b714735c3fa412481c7a67d313ac2020e14f1b5c0246716dc  src/app/components/WhatYouReceive.module.css
+    1c7c410a2184416f814b77cfcf5c5b620379cd37aba4bd1aaa5bc415d128c7a5  src/app/components/MarketIntelligence.js
+    34f7297d97ed48c655a47b243fb62dd6c8f4439b8faff1803f03c019a65d5b36  src/app/components/MarketIntelligence.module.css
+
+## TDD evidence
+
+1. The initial Market Coverage render test failed with “Market Coverage section is missing”.
+2. The fragment-anchor assertion failed before id=market-coverage was added.
+3. The strengthened semantic-list assertion failed with “Covered market examples must be a named list”.
+4. The final globe-asset assertion failed with “Market Coverage must render the approved reference-derived globe image”.
+5. Each test passed after the corresponding production implementation.
+
+## Final automated verification
+
+- Complete homepage render suite: 5 passed, 0 failed.
+- ESLint: exit 0, no reported errors.
+- Next.js 16.2.12 production build: compiled and statically generated the homepage successfully.
+- The build emitted the repository's existing multiple-lockfile workspace-root warning; compilation and generation still completed successfully.
+
+## Visual verification
+
+- Reference-width render: .artifacts/market-coverage-final-1364.png
+- Laptop render: .artifacts/market-coverage-final-1366.png
+- Large-desktop render: .artifacts/market-coverage-final-1920.png
+- Reference/build comparison: .artifacts/market-coverage-final-compare.jpg
+- Desktop scaling comparison: .artifacts/market-coverage-desktop-widths.jpg
+- Final reference-derived globe render: .artifacts/market-coverage-globe-final-1364.png
+- Final globe reference/build comparison: .artifacts/market-coverage-globe-final-compare.jpg
+
+The black surround in the supplied image was treated as external screenshot framing, as approved. The section uses the normalized 1364 × 750 white/lavender composition.
+
+## Scope
+
+- Existing section components remained byte-for-byte unchanged.
+- src/app/page.js changed only to import and append MarketCoverage.
+- No Git operation was performed.

@@ -1,13 +1,34 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  /* Surfaces — sampled from the reference */
+  --bg: #f8f9fc;
+  --bg-nav: #fcfcfe;
+  --bg-ticker: #f7f8fc;
+  --bg-trust: #f4f4fb;
+  --card: #fafafd;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Ink */
+  --ink: #0a0f2c;
+  --ink-soft: #2b3358;
+  --muted: #5a6390;
+  --muted-2: #858db4;
+
+  /* Lines */
+  --line: #e9ebf3;
+  --line-soft: #eef0f7;
+
+  /* Brand */
+  --brand: #4e22f0;
+  --brand-2: #6d4bf5;
+  --brand-3: #8b74f8;
+  --brand-soft: #ede9fe;
+
+  /* Status */
+  --green: #16a375;
+  --green-deep: #17795c;
+  --red: #e0484f;
+  --amber: #e29b33;
+
+  --band-deep: #050c28;
 }
 
 html {
@@ -24,9 +45,9 @@ body {
   min-height: 100%;
   display: flex;
   flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  font-family: var(--font-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -42,8 +63,10 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
 }

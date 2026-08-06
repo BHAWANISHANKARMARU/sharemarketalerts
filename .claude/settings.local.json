@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c \"import PIL; print\\('PIL', PIL.__version__\\)\")",
+      "Bash(python3 crop.py)",
+      "Bash(python3 -)",
+      "Bash(python3 -c ' *)",
+      "Bash(python3 shot.py build2.png)",
+      "Bash(python3 shot.py build3.png)",
+      "Bash(python3 shot.py build4.png)",
+      "Bash(python3 shot.py build6.png)",
+      "Bash(python3 diff.py build6.png)",
+      "Bash(python3 shot.py build7.png)",
+      "Bash(python3 shot.py build8.png)",
+      "Bash(python3 sbs.py build8.png)"
+    ]
+  }
+}
