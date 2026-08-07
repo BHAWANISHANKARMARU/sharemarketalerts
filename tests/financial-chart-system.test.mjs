@@ -51,4 +51,27 @@ test("the shared chart system uses the premium visual treatment", async () => {
   assert.doesNotMatch(chart, /useEffect\(\(\) => setMounted/);
   assert.match(styles, /border-radius:\s*16px/);
   assert.match(styles, /font-family:\s*var\(--font-sans\)/);
+  assert.match(styles, /@media \(max-width:\s*700px\)/);
+  assert.match(styles, /recharts-cartesian-axis-tick-value/);
+  assert.match(styles, /font-size:\s*10px\s*!important/);
+});
+
+test("the live route chart keeps the same bespoke fintech treatment", async () => {
+  const chart = await readFile(
+    new URL("../src/app/components/platform/PremiumTrendChart.js", import.meta.url),
+    "utf8",
+  );
+
+  assert.match(chart, /from "recharts"/);
+  assert.match(chart, /type="monotone"/);
+  assert.match(chart, /strokeWidth=\{2\.75\}/);
+  assert.match(chart, /strokeLinecap="round"/);
+  assert.match(chart, /strokeLinejoin="round"/);
+  assert.match(chart, /stopOpacity=\{0\.18\}/);
+  assert.match(chart, /stopOpacity=\{0\}/);
+  assert.match(chart, /vertical=\{false\}/);
+  assert.match(chart, /strokeOpacity=\{0\.05\}/);
+  assert.match(chart, /dot=\{false\}/);
+  assert.match(chart, /activeDot=\{\{ r: 3/);
+  assert.match(chart, /animationDuration=\{700\}/);
 });

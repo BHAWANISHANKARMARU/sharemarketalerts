@@ -78,6 +78,25 @@
   }
 }
 
+@media (max-width: 700px) {
+  .chart :global(.recharts-cartesian-axis-tick-value) {
+    font-size: 10px !important;
+  }
+
+  .tooltip {
+    min-width: 124px;
+    padding: 12px 15px;
+  }
+
+  .tooltip strong {
+    font-size: 14px;
+  }
+
+  .tooltip span {
+    font-size: 12px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hoverPoint {
     animation: none;

@@ -9,7 +9,6 @@ import {
   ArrowRight,
   BoltIcon,
   BoltSolid,
-  ChevronDown,
   ClipboardCheck,
   DialIcon,
   LogoMark,
@@ -22,13 +21,7 @@ import {
   TrendGlyph,
   UsersIcon,
 } from "./icons";
-
-const NAV = [
-  ["Features", "#how-it-works"],
-  ["How It Works", "#how-it-works"],
-  ["Pricing", "#pricing"],
-  ["Performance", "#testimonials"],
-];
+import { NAV_ITEMS } from "./siteNavigation";
 
 const STATS = [
   ["24/7", "AI Scanning"],
@@ -168,15 +161,11 @@ export default function Hero() {
         </Link>
 
         <nav className={s.navLinks}>
-          {NAV.map(([label, href]) => (
-            <a key={label} href={href}>
+          {NAV_ITEMS.map(({ label, href }) => (
+            <Link key={href} href={href}>
               {label}
-            </a>
+            </Link>
           ))}
-          <a href="#site-footer" className={s.navDrop}>
-            Resources <ChevronDown className={s.chev} />
-          </a>
-          <a href="#site-footer">About</a>
         </nav>
 
         <div className={s.navRight}>

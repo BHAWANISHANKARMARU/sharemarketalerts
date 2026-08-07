@@ -10,27 +10,27 @@ const NAV_GROUPS = [
   {
     title: "Platform",
     links: [
-      ["Market Intelligence", "#market-intelligence"],
-      ["AI Signals", "#how-it-works"],
-      ["How It Works", "#how-it-works"],
-      ["Pricing", "#pricing"],
+      ["Products", "/products"],
+      ["Stock Alerts", "/stock-alerts"],
+      ["Live Markets", "/live-markets"],
+      ["Insights", "/insights"],
     ],
   },
   {
     title: "Markets",
     links: [
-      ["IPO GMP Tracker", "#ipo-gmp-tracker"],
-      ["Stocks", "#market-coverage"],
-      ["Indices", "#market-coverage"],
-      ["Global Markets", "#market-coverage"],
+      ["Market Overview", "/markets"],
+      ["IPO Intelligence", "/ipo"],
+      ["Live Markets", "/live-markets"],
+      ["Stock Alerts", "/stock-alerts"],
     ],
   },
   {
     title: "Resources",
     links: [
-      ["Performance", "#testimonials"],
-      ["Trader Stories", "#testimonials"],
-      ["Market Coverage", "#market-coverage"],
+      ["Home", "/"],
+      ["Insights", "/insights"],
+      ["Products", "/products"],
       ["Support", "mailto:support@sharemarketalerts.com"],
     ],
   },
@@ -189,14 +189,17 @@ export default function Footer() {
                 <ul>
                   {group.links.map(([label, href]) => (
                     <li key={label}>
-                      {href ? (
-                        <a href={href}>
-                          {label}
-                          <ArrowIcon />
-                        </a>
-                      ) : (
-                        <span aria-disabled="true">{label}</span>
-                      )}
+                          {href.startsWith("/") ? (
+                            <Link href={href}>
+                              {label}
+                              <ArrowIcon />
+                            </Link>
+                          ) : (
+                            <a href={href}>
+                              {label}
+                              <ArrowIcon />
+                            </a>
+                          )}
                     </li>
                   ))}
                 </ul>

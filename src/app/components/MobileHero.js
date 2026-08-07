@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import momentumImage from "../../../public/images/mobile-market-momentum-v1.png";
 import { useMarketData } from "./MarketDataProvider";
+import { NAV_ITEMS } from "./siteNavigation";
 import {
   ArrowRight,
   BoltIcon,
@@ -121,10 +122,11 @@ export default function MobileHero() {
 
             {menuOpen && (
               <nav id="mobile-navigation" className={s.mobileMenu} aria-label="Mobile navigation">
-                <a href="#how-it-works" onClick={() => setMenuOpen(false)}>How It Works</a>
-                <a href="#market-intelligence" onClick={() => setMenuOpen(false)}>Live Markets</a>
-                <a href="#ipo-gmp-tracker" onClick={() => setMenuOpen(false)}>IPO GMP</a>
-                <a href="#pricing" onClick={() => setMenuOpen(false)}>Pricing</a>
+                {NAV_ITEMS.map(({ label, href }) => (
+                  <Link key={href} href={href} onClick={() => setMenuOpen(false)}>
+                    {label}
+                  </Link>
+                ))}
               </nav>
             )}
 

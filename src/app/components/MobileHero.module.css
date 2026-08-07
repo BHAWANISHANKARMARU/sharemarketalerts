@@ -109,7 +109,7 @@
     z-index: 20;
     top: calc(72 * var(--m));
     right: calc(20 * var(--m));
-    width: calc(170 * var(--m));
+    width: calc(230 * var(--m));
     padding: calc(10 * var(--m));
     display: grid;
     gap: calc(4 * var(--m));
@@ -120,10 +120,10 @@
   }
 
   .mobileMenu a {
-    padding: calc(8 * var(--m)) calc(10 * var(--m));
+    padding: calc(10 * var(--m)) calc(12 * var(--m));
     border-radius: calc(6 * var(--m));
     color: #191d3b;
-    font-size: calc(10 * var(--m));
+    font-size: calc(14.5 * var(--m));
     font-weight: 700;
   }
 

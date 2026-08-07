@@ -5,6 +5,8 @@ import WhatYouReceive from "./components/WhatYouReceive";
 import MarketIntelligence from "./components/MarketIntelligence";
 import MarketCoverage from "./components/MarketCoverage";
 import Testimonials from "./components/Testimonials";
+import Pricing from "./components/Pricing";
+import GrowthCta from "./components/GrowthCta";
 import MarketDataProvider from "./components/MarketDataProvider";
 import { getHomeMarketData } from "../lib/market-data/home.js";
 
@@ -20,6 +22,8 @@ export default async function Home() {
       <MarketIntelligence />
       <MarketCoverage />
       <Testimonials />
+      <Pricing />
+      <GrowthCta />
     </MarketDataProvider>
   );
 }

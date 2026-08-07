@@ -10,19 +10,15 @@ const REQUIRED_COPY = [
   "See the signal. Move before the market.",
   "AI-powered market intelligence, IPO GMP clarity, and risk-aware alerts—built for confident decisions.",
   "Platform",
-  "Market Intelligence",
-  "AI Signals",
-  "How It Works",
-  "Pricing",
+  "Products",
+  "Stock Alerts",
+  "Live Markets",
+  "Insights",
   "Markets",
-  "IPO GMP Tracker",
-  "Stocks",
-  "Indices",
-  "Global Markets",
+  "Market Overview",
+  "IPO Intelligence",
   "Resources",
-  "Performance",
-  "Trader Stories",
-  "Market Coverage",
+  "Home",
   "Support",
   "Company",
   "About",
@@ -84,10 +80,12 @@ test("Market Command footer renders last with approved content and semantics", a
   assert.match(match[0], /<button[^>]*type="submit"/);
   assert.match(match[0], /<form[^>]*emailControl/);
   assert.doesNotMatch(match[0], /href="#"/);
-  assert.match(match[0], /href="#how-it-works"/);
-  assert.match(html, /<section[^>]*id="how-it-works"/);
-  assert.match(match[0], /href="#market-intelligence"/);
-  assert.match(html, /<section[^>]*id="market-intelligence"/);
+  assert.match(match[0], /href="\/markets"/);
+  assert.match(match[0], /href="\/ipo"/);
+  assert.match(match[0], /href="\/products"/);
+  assert.match(match[0], /href="\/insights"/);
+  assert.match(match[0], /href="\/stock-alerts"/);
+  assert.match(match[0], /href="\/live-markets"/);
   assert.ok(
     html.indexOf('data-section="site-footer"') >
       html.indexOf('data-section="growth-cta"'),
