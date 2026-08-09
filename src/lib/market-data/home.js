@@ -1,12 +1,7 @@
 import "server-only";
 import { unstable_cache } from "next/cache";
-import {
-  FALLBACK_CHART,
-  FALLBACK_IPOS,
-  FALLBACK_QUOTES,
-  FALLBACK_TIMESTAMP,
-} from "./fallback.js";
 import { formatMarketNumber, formatPercent } from "./normalize.js";
+import { buildSectorQuotes, isSectorSymbol } from "./sectors.js";
 import { getIpoAlertsData } from "./providers/ipo-alerts.js";
 import {
   getYahooHomepageData,
@@ -20,10 +15,26 @@ const INDEX_LABELS = {
   "^NSEBANK": "BANK NIFTY",
   "^INDIAVIX": "INDIA VIX",
   "^IXIC": "NASDAQ",
+  "^NDX": "NASDAQ 100",
   "^GSPC": "S&P 500",
   "^DJI": "DOW JONES",
+  "^FTSE": "FTSE 100",
+  "^GDAXI": "DAX",
+  "^N225": "NIKKEI 225",
+  "^HSI": "HANG SENG",
+  "000001.SS": "SHANGHAI COMPOSITE",
+  "^KS11": "KOSPI",
+  "^AXJO": "ASX 200",
+  "^STI": "SINGAPORE STI",
+  "^FCHI": "CAC 40",
+  "^STOXX50E": "EURO STOXX 50",
+  "^IBEX": "IBEX 35",
+  "FTSEMIB.MI": "FTSE MIB",
+  "^SSMI": "SWISS MARKET",
   "INR=X": "USD/INR",
   "GC=F": "GOLD FUTURES",
+  "BZ=F": "BRENT CRUDE",
+  "BTC-USD": "BITCOIN USD",
 };
 
 const TICKER_SYMBOLS = [
@@ -37,7 +48,11 @@ const TICKER_SYMBOLS = [
 ];
 
 const DASHBOARD_SYMBOLS = ["^NSEI", "^BSESN", "^NSEBANK", "^INDIAVIX"];
-const COVERAGE_SYMBOLS = ["^NSEI", "^IXIC", "^BSESN", "INR=X", "GC=F", "^GSPC"];
+const COVERAGE_SYMBOLS = [
+  "^NSEI", "^IXIC", "^NDX", "^BSESN", "INR=X", "GC=F", "BZ=F", "BTC-USD",
+  "^GSPC", "^DJI", "^FTSE", "^GDAXI", "^N225", "^HSI", "000001.SS", "^KS11",
+  "^AXJO", "^STI", "^FCHI", "^STOXX50E", "^IBEX", "FTSEMIB.MI", "^SSMI",
+];
 
 function labelQuote(quote) {
   return { ...quote, label: INDEX_LABELS[quote.symbol] || quote.displaySymbol };
@@ -76,18 +91,6 @@ function makeOpportunity(quote, index) {
   };
 }
 
-function mergeIpos(liveIpos) {
-  const seen = new Set();
-  return [...liveIpos, ...FALLBACK_IPOS]
-    .filter((ipo) => {
-      const key = `${ipo.symbol || ""}:${ipo.company}`.toLowerCase();
-      if (seen.has(key)) return false;
-      seen.add(key);
-      return true;
-    })
-    .slice(0, 7);
-}
-
 async function loadHomeMarketData() {
   const [yahooResult, ipoResult] = await Promise.allSettled([
     getYahooHomepageData(),
@@ -96,11 +99,12 @@ async function loadHomeMarketData() {
 
   const yahooLive = yahooResult.status === "fulfilled";
   const liveQuotes = yahooLive ? yahooResult.value.quotes : [];
-  const quoteMap = new Map(FALLBACK_QUOTES.map((quote) => [quote.symbol, quote]));
-  for (const quote of liveQuotes) quoteMap.set(quote.symbol, quote);
+  const quoteMap = new Map(liveQuotes.map((quote) => [quote.symbol, quote]));
 
   const allQuotes = [...quoteMap.values()].map(labelQuote);
-  const equities = allQuotes.filter((quote) => quote.symbol.endsWith(".NS"));
+  const equities = allQuotes.filter(
+    (quote) => quote.symbol.endsWith(".NS") && !isSectorSymbol(quote.symbol),
+  );
   const gainers = [...equities]
     .filter((quote) => quote.changePercent !== null)
     .sort((a, b) => b.changePercent - a.changePercent)
@@ -113,52 +117,51 @@ async function loadHomeMarketData() {
   const positiveShare = momentumUniverse.length
     ? momentumUniverse.filter((quote) => quote.changePercent >= 0).length /
       momentumUniverse.length
-    : 0.5;
-  const momentumScore = Math.round(45 + positiveShare * 45);
+    : null;
+  const momentumScore = positiveShare === null ? null : Math.round(45 + positiveShare * 45);
   const nseQuote = quoteMap.get("^NSEI");
-  const marketOpen = ["REGULAR", "PRE", "POST"].includes(nseQuote?.marketState);
+  const marketOpen = nseQuote?.marketState === "REGULAR";
 
   const liveIpos = ipoResult.status === "fulfilled" ? ipoResult.value.ipos : [];
-  const ipos = mergeIpos(liveIpos);
+  const ipos = liveIpos.slice(0, 7);
   const gmpIpos = ipos.filter((ipo) => ipo.gmpPercent !== null);
   const highestGmp = [...gmpIpos].sort((a, b) => b.gmpPercent - a.gmpPercent)[0] || null;
-  const updatedAt = newestTimestamp(liveQuotes, FALLBACK_TIMESTAMP);
+  const updatedAt = newestTimestamp(liveQuotes, null);
 
   return {
     updatedAt,
     market: {
-      status: marketOpen ? "open" : "closed",
-      statusLabel: marketOpen ? "Markets Open" : "Markets Closed",
+      status: !nseQuote ? "unavailable" : marketOpen ? "open" : "closed",
+      statusLabel: !nseQuote ? "Market data unavailable" : marketOpen ? "Markets Open" : "Markets Closed",
       momentumScore,
-      momentumLabel: momentumScore >= 60 ? "BULLISH" : momentumScore <= 45 ? "BEARISH" : "NEUTRAL",
+      momentumLabel: momentumScore === null ? "UNAVAILABLE" : momentumScore >= 60 ? "BULLISH" : momentumScore <= 45 ? "BEARISH" : "NEUTRAL",
       ticker: TICKER_SYMBOLS.map((symbol) => quoteMap.get(symbol)).filter(Boolean).map(labelQuote),
       indices: DASHBOARD_SYMBOLS.map((symbol) => quoteMap.get(symbol)).filter(Boolean).map(labelQuote),
       coverage: COVERAGE_SYMBOLS.map((symbol) => quoteMap.get(symbol)).filter(Boolean).map(labelQuote),
+      equities,
+      sectors: buildSectorQuotes(liveQuotes),
+      earnings: yahooLive ? yahooResult.value.earnings || [] : [],
       gainers,
       losers,
       opportunities: gainers.slice(0, 4).map(makeOpportunity),
-      chart:
-        yahooLive && yahooResult.value.chart.length
-          ? yahooResult.value.chart
-          : FALLBACK_CHART,
+      chart: yahooLive ? yahooResult.value.chart : [],
     },
     ipo: {
       rows: ipos,
       total: ipos.length,
       highestGmp,
-      updatedAt: newestTimestamp(liveIpos, FALLBACK_IPOS[0].updatedAt),
+      updatedAt: newestTimestamp(liveIpos, null),
       partial:
         ipoResult.status !== "fulfilled" ||
-        ipoResult.value.partial ||
-        ipos.some((ipo) => ipo.sourceMode === "fallback"),
+        ipoResult.value.partial,
     },
     sources: {
       yahoo: {
         name: "Yahoo Finance",
-        mode: yahooLive ? "live" : "fallback",
+        mode: yahooLive ? "live" : "unavailable",
         message:
           yahooResult.status === "rejected"
-            ? "Live market data is temporarily unavailable; last-known values are shown."
+            ? "Live market data is temporarily unavailable. Values are hidden until the feed recovers."
             : null,
       },
       ipo: {
@@ -168,10 +171,10 @@ async function loadHomeMarketData() {
             ? ipoResult.value.partial
               ? "partial"
               : "live"
-            : "fallback",
+            : "unavailable",
         message:
           ipoResult.status === "rejected"
-            ? "Live IPO data is temporarily unavailable; clearly marked historical values are shown."
+            ? "Live IPO data is temporarily unavailable. No historical demo values are shown."
             : ipoResult.value.providerMessage,
       },
     },
@@ -180,7 +183,7 @@ async function loadHomeMarketData() {
 
 export const getHomeMarketData = unstable_cache(
   loadHomeMarketData,
-  ["homepage-market-data-v1"],
+  ["homepage-market-data-v8-live-only"],
   { revalidate: 60, tags: ["homepage-market-data"] },
 );
 

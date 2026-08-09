@@ -223,7 +223,7 @@ export default function Hero() {
             MARKET MOMENTUM
           </span>
           <span className={s.bullish}>{marketData.market.momentumLabel}</span>
-          <span className={s.momentumPct}>{marketData.market.momentumScore}%</span>
+          <span className={s.momentumPct}>{marketData.market.momentumScore === null ? "—" : `${marketData.market.momentumScore}%`}</span>
           <span className={s.momentumSub}>Momentum Score</span>
         </div>
 

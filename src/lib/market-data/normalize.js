@@ -1,3 +1,5 @@
+import { instrumentLogoUrl } from "../../app/lib/instrument-logos.js";
+
 const SYMBOL_PATTERN = /^[A-Z0-9^=._-]{1,32}$/i;
 
 function finiteNumber(value) {
@@ -8,7 +10,10 @@ function finiteNumber(value) {
 
 function isoDate(value) {
   if (!value) return null;
-  const date = value instanceof Date ? value : new Date(value);
+  const normalized = typeof value === "number" && value > 0 && value < 1_000_000_000_000
+    ? value * 1000
+    : value;
+  const date = normalized instanceof Date ? normalized : new Date(normalized);
   return Number.isNaN(date.getTime()) ? null : date.toISOString();
 }
 
@@ -51,14 +56,22 @@ export function normalizeQuote(raw = {}) {
     direction:
       changePercent === null ? "flat" : changePercent < 0 ? "down" : "up",
     volume: finiteNumber(raw.regularMarketVolume),
+    averageVolume: finiteNumber(raw.averageDailyVolume3Month),
     open: finiteNumber(raw.regularMarketOpen),
     high: finiteNumber(raw.regularMarketDayHigh),
     low: finiteNumber(raw.regularMarketDayLow),
     previousClose: finiteNumber(raw.regularMarketPreviousClose),
+    fiftyTwoWeekHigh: finiteNumber(raw.fiftyTwoWeekHigh),
+    fiftyTwoWeekLow: finiteNumber(raw.fiftyTwoWeekLow),
     currency: raw.currency || null,
+    exchange: raw.fullExchangeName || raw.exchange || null,
+    timeZone: raw.exchangeTimezoneName || null,
+    timeZoneShortName: raw.exchangeTimezoneShortName || null,
+    delayMinutes: finiteNumber(raw.exchangeDataDelayedBy),
     marketState: raw.marketState || "CLOSED",
     updatedAt: isoDate(raw.regularMarketTime),
     href: yahooQuoteHref(symbol),
+    logoUrl: instrumentLogoUrl(symbol),
   };
 }
 
@@ -120,6 +133,9 @@ export function normalizeIpo(raw = {}) {
       gmp !== null && high ? Number((high + gmp).toFixed(2)) : null,
     expectedListingGain:
       gmp !== null && high ? Number(((gmp / high) * 100).toFixed(2)) : null,
+    startDate: isoDate(raw.startDate || raw.openDate),
+    endDate: isoDate(raw.endDate || raw.closeDate),
+    listingDate: isoDate(raw.listingDate),
     updatedAt,
     sourceMode: gmp === null ? "partial" : "live",
     href: raw.infoUrl || raw.nseInfoUrl || raw.bseInfoUrl || fallbackHref,
@@ -137,6 +153,7 @@ export function normalizeSearchResult(raw = {}) {
     exchange: raw.exchDisp || raw.exchange || "Yahoo Finance",
     type: raw.quoteType || raw.typeDisp || "SECURITY",
     href: yahooQuoteHref(symbol),
+    logoUrl: instrumentLogoUrl(symbol),
   };
 }
 

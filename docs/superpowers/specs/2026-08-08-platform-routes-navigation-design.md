@@ -34,9 +34,9 @@ The inner-page design uses a calm white and cool-lilac canvas, deep navy typogra
 4. Capability grid with route-specific content.
 5. Dark operational panel showing a workflow, feed, or market state.
 6. Contextual CTA.
-7. Existing global Growth CTA and footer.
+7. Existing global footer.
 
-The homepage alone keeps Pricing. Inner routes do not repeat Pricing.
+The homepage alone keeps Pricing and its Growth CTA. Inner routes do not repeat either conversion section.
 
 ## Data and Behavior
 

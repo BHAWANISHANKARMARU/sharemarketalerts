@@ -48,7 +48,7 @@ test("the inner page header uses prefetched links and marks the active route", a
 
 test("each destination is an independent analytical workspace", async () => {
   const experiences = [
-    ["MarketsExperience", "data-market-dashboard", /Market summary/, /Sector performance/],
+    ["MarketsExperience", "data-market-dashboard", /MarketsOverviewHero/, /Sector heatmap/],
     ["IpoExperience", "data-ipo-explorer", /IPO Calendar/, /Issue screener/],
     ["ProductsExperience", "data-products-suite", /Product workspace/, /Tool preview/],
     ["InsightsExperience", "data-insights-hub", /Research ideas/, /Market themes/],
@@ -63,7 +63,7 @@ test("each destination is an independent analytical workspace", async () => {
     );
     assert.match(source, new RegExp(landmark));
     assert.match(source, /<SiteHeader/);
-    assert.match(source, /<h1/);
+    assert.match(source, component === "MarketsExperience" ? /<MarketsOverviewHero/ : /<h1/);
     assert.match(source, /WorkspacePrimitives/);
     for (const signal of copySignals) assert.match(source, signal);
   }
@@ -83,7 +83,7 @@ test("market-driven routes preserve the existing live data provider", async () =
 
 test("pages contain useful domain-specific tools, not repeated marketing blocks", async () => {
   const expected = {
-    MarketsExperience: [/Market summary/, /Sector heatmap/, /Earnings watch/, /Markets, everywhere/, /Market calendars/, /Market news and research/],
+    MarketsExperience: [/MarketsOverviewHero/, /Sector heatmap/, /Earnings watch/, /Market Everywhere/, /Market calendars/, /Market news and research/],
     IpoExperience: [/IPO Calendar/, /Offer calendar/, /Read the issue/, /All IPO market data/],
     ProductsExperience: [/Product workspace/, /Capability matrix/, /Delivery surfaces/, /Explore the market toolkit/, /All platform products/],
     InsightsExperience: [/Research ideas/, /Week ahead/, /Market themes/, /Community ideas/, /Top market stories/, /Learning library/],
@@ -98,6 +98,59 @@ test("pages contain useful domain-specific tools, not repeated marketing blocks"
     );
     for (const pattern of patterns) assert.match(source, pattern);
   }
+});
+
+test("markets sector heatmap exposes the reference dashboard controls and card anatomy", async () => {
+  const source = await readFile(
+    new URL("src/app/components/platform/MarketsExperience.js", ROOT),
+    "utf8",
+  );
+  const styles = await readFile(
+    new URL("src/app/components/platform/TradingWorkspace.module.css", ROOT),
+    "utf8",
+  );
+
+  assert.match(source, /Live performance of Indian market sectors/);
+  assert.match(source, /aria-label="Sector heatmap range"/);
+  for (const range of ["1D", "1W", "1M", "3M", "1Y"]) {
+    assert.match(source, new RegExp(`"${range}"`));
+  }
+  assert.match(source, /Market Cap/);
+  assert.match(source, /SectorIcon/);
+  assert.match(source, /SectorSparkline/);
+  assert.match(source, /from "recharts"/);
+  assert.match(source, /function SectorSparkline[\s\S]*?<ResponsiveContainer[\s\S]*?<AreaChart/);
+  assert.match(source, /data-chart-engine="recharts"/);
+  assert.doesNotMatch(source, /className=\{s\.sectorSparkLine\}/);
+  assert.match(source, /aria-label="Heatmap view"/);
+  assert.match(styles, /\.sectorHeatCardFeatured/);
+  assert.match(styles, /\.sectorSparkline/);
+  assert.match(styles, /linear-gradient\(/);
+});
+
+test("markets global coverage renders the complete reference dashboard", async () => {
+  const source = await readFile(
+    new URL("src/app/components/platform/MarketsExperience.js", ROOT),
+    "utf8",
+  );
+
+  for (const copy of [
+    "Market Everywhere",
+    "Global markets at a glance",
+    "All times are local",
+    "Global Overview",
+    "Market Status",
+    "Asia Markets",
+    "Europe Markets",
+    "Market Movers",
+    "Global Snapshot",
+    "See full market coverage",
+  ]) {
+    assert.match(source, new RegExp(copy));
+  }
+
+  assert.match(source, /worldMapImage/);
+  assert.match(source, /aria-label="Global market views"/);
 });
 
 test("the workspace visual system is compact, responsive, and data-first", async () => {

@@ -20,7 +20,7 @@ export default function MarketDataProvider({ initialData, children }) {
         const nextData = await response.json();
         if (!cancelled && nextData?.market && nextData?.ipo) setData(nextData);
       } catch {
-        // Keep the server-rendered last-known snapshot when the network is offline.
+        // Keep the last successful API snapshot when a refresh is interrupted.
       }
     }
 

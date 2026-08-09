@@ -9,6 +9,9 @@ const numberFormat = new Intl.NumberFormat("en-IN", {
 });
 
 function dateParts(value) {
+  if (!value || Number.isNaN(Date.parse(value))) {
+    return { date: "Unavailable", day: "Live provider has not supplied a timestamp", time: "—" };
+  }
   const date = new Date(value);
   return {
     date: new Intl.DateTimeFormat("en-IN", { day: "2-digit", month: "short", year: "numeric", timeZone: "Asia/Kolkata" }).format(date),
@@ -222,7 +225,7 @@ export default function IpoMarketIntelligence() {
         <footer className={s.sourceBar} aria-label="IPO data source">
           <span className={s.sourceIcon}><Icon name="source" /></span>
           <strong>Source:</strong>
-          <span>IPO Alerts{marketData.ipo.partial ? " · partial live coverage plus clearly marked historical fallback" : " · live API"}</span>
+          <span>IPO Alerts{marketData.ipo.partial ? " · partial live API coverage" : " · live API"}</span>
           <i aria-hidden="true" />
           <span>Data as on {report.date}, {report.time}</span>
           <span className={s.sourceWave} aria-hidden="true" />

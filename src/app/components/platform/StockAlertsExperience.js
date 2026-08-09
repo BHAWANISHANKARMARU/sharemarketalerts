@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import SiteHeader from "../SiteHeader";
 import { useMarketData } from "../MarketDataProvider";
 import PremiumTrendChart from "./PremiumTrendChart";
@@ -29,17 +29,32 @@ const ALERT_LIBRARY = [
 ];
 
 export default function StockAlertsExperience() {
-  const { market, updatedAt } = useMarketData();
+  const { market, updatedAt, sources } = useMarketData();
   const symbols = useMemo(() => [...market.gainers, ...market.losers], [market.gainers, market.losers]);
   const [tab, setTab] = useState("Create alert");
-  const [symbol, setSymbol] = useState(symbols[0]?.displaySymbol || "RELIANCE");
+  const [symbol, setSymbol] = useState(symbols[0]?.displaySymbol || "");
   const selected = symbols.find((item) => item.displaySymbol === symbol) || symbols[0];
   const [condition, setCondition] = useState(CONDITIONS[0]);
-  const [threshold, setThreshold] = useState(String(Math.round((symbols[0]?.value || 1335) * 1.01)));
+  const [threshold, setThreshold] = useState(symbols[0]?.value ? String(Math.round(symbols[0].value * 1.01)) : "");
   const [channel, setChannel] = useState(CHANNELS[2]);
   const [frequency, setFrequency] = useState(FREQUENCIES[0]);
   const [confirmed, setConfirmed] = useState(true);
   const [paused, setPaused] = useState([]);
+  const [symbolChart, setSymbolChart] = useState([]);
+
+  useEffect(() => {
+    if (!selected?.symbol) return undefined;
+    const controller = new AbortController();
+    fetch(`/api/market/chart?symbol=${encodeURIComponent(selected.symbol)}&range=1D`, {
+      signal: controller.signal,
+      headers: { accept: "application/json" },
+    }).then((response) => response.ok ? response.json() : Promise.reject(new Error("Chart unavailable")))
+      .then((payload) => setSymbolChart(Array.isArray(payload.points) ? payload.points : []))
+      .catch((error) => {
+        if (error.name !== "AbortError") setSymbolChart([]);
+      });
+    return () => controller.abort();
+  }, [selected?.symbol]);
 
   const toggleAlert = (index) => {
     setPaused((items) => items.includes(index) ? items.filter((item) => item !== index) : [...items, index]);
@@ -57,16 +72,16 @@ export default function StockAlertsExperience() {
         <WorkspaceTabs items={["Create alert", "Active alerts", "Triggered", "Settings"]} active={tab} onChange={setTab} label="Alert workspace views" />
 
         <section className={s.alertToolbar}>
-          <div><InstrumentMark symbol={symbol} /><label><span>SYMBOL</span><select value={symbol} onChange={(event) => setSymbol(event.target.value)}>{symbols.map((item) => <option value={item.displaySymbol} key={item.symbol}>{item.displaySymbol} · NSE</option>)}</select></label></div>
+          <div><InstrumentMark symbol={selected?.symbol || `${symbol}.NS`} logoUrl={selected?.logoUrl} /><label><span>SYMBOL</span><select value={symbol} onChange={(event) => setSymbol(event.target.value)}>{symbols.map((item) => <option value={item.displaySymbol} key={item.symbol}>{item.displaySymbol} · NSE</option>)}</select></label></div>
           <FilterRail label="Chart timeframe">{["1m", "5m", "15m", "1h", "1D"].map((item) => <FilterChip active={item === "15m"} key={item}>{item}</FilterChip>)}</FilterRail>
           <span>Price alerts · {market.statusLabel}</span>
         </section>
 
         <section className={s.alertWorkbench}>
           <article className={s.alertChartPanel}>
-            <PanelHeading title={`${symbol} · 15 minute`} subtitle="NSE · Live market context" action={<ChangeValue value={selected?.formattedChange || "—"} direction={selected?.direction} />} />
+            <PanelHeading title={`${symbol || "Symbol"} · live session`} subtitle="NSE · Yahoo Finance chart" action={<ChangeValue value={selected?.formattedChange || "—"} direction={selected?.direction} />} />
             <div className={s.alertQuote}><span>LAST PRICE</span><strong>₹{selected?.formattedValue || "—"}</strong><small>Rule level ₹{threshold || "—"}</small></div>
-            <PremiumTrendChart data={market.chart} label={`${symbol} price chart`} tone={selected?.direction === "down" ? "red" : "purple"} prefix="₹" />
+            <PremiumTrendChart data={symbolChart} label={`${symbol || "Selected symbol"} price chart`} tone={selected?.direction === "down" ? "red" : "purple"} prefix="₹" />
             <div className={s.alertChartAxis}><span>09:15</span><span>11:00</span><span>13:00</span><span>15:30</span></div>
           </article>
 
@@ -86,11 +101,11 @@ export default function StockAlertsExperience() {
         </section>
 
         <section className={s.activeAlerts}>
-          <div className={s.sectionTitleRow}><div><h2>Active alerts</h2><span>{symbols.slice(0, 4).length} rules monitoring live market conditions</span></div><FilterRail label="Alert status"><FilterChip active>All alerts</FilterChip><FilterChip>Price</FilterChip><FilterChip>Volume</FilterChip></FilterRail></div>
+          <div className={s.sectionTitleRow}><div><h2>Live rule previews</h2><span>{symbols.slice(0, 4).length} templates populated with current quote values</span></div><FilterRail label="Alert status"><FilterChip active>All alerts</FilterChip><FilterChip>Price</FilterChip><FilterChip>Volume</FilterChip></FilterRail></div>
           <div className={s.tableScroller}>
             <table className={s.workspaceTable}>
               <thead><tr><th>Symbol</th><th>Condition</th><th>Last price</th><th>Distance</th><th>Delivery</th><th>Status</th></tr></thead>
-              <tbody>{symbols.slice(0, 4).map((quote, index) => <tr key={quote.symbol}><td><a href={quote.href} target="_blank" rel="noreferrer"><InstrumentMark symbol={quote.displaySymbol} tone={index} /><span><strong>{quote.displaySymbol}</strong><small>NSE · Equity</small></span></a></td><td>{index % 2 ? "Moves below support" : "Breakout above range"}</td><td>₹{quote.formattedValue}</td><td><ChangeValue value={quote.formattedChange} direction={quote.direction} /></td><td>{index % 3 === 0 ? "Messaging" : "Web + Email"}</td><td><button className={s.statusToggle} type="button" aria-pressed={!paused.includes(index)} onClick={() => toggleAlert(index)}><i />{paused.includes(index) ? "Paused" : "Active"}</button></td></tr>)}</tbody>
+              <tbody>{symbols.slice(0, 4).map((quote, index) => <tr key={quote.symbol}><td><a href={quote.href} target="_blank" rel="noreferrer"><InstrumentMark symbol={quote.symbol} logoUrl={quote.logoUrl} tone={index} /><span><strong>{quote.displaySymbol}</strong><small>NSE · Equity</small></span></a></td><td>{index % 2 ? "Moves below support" : "Breakout above range"}</td><td>₹{quote.formattedValue}</td><td><ChangeValue value={quote.formattedChange} direction={quote.direction} /></td><td>{index % 3 === 0 ? "Messaging" : "Web + Email"}</td><td><button className={s.statusToggle} type="button" aria-pressed={!paused.includes(index)} onClick={() => toggleAlert(index)}><i />{paused.includes(index) ? "Paused" : "Active"}</button></td></tr>)}</tbody>
             </table>
           </div>
         </section>
@@ -101,8 +116,8 @@ export default function StockAlertsExperience() {
         </section>
 
         <section className={s.alertLowerGrid}>
-          <article className={s.recentTriggers}><PanelHeading title="Recent triggers" subtitle="Context delivered with each event" /><ol>{market.opportunities.map((item, index) => <li key={item.symbol}><time>{item.time}</time><span className={item.side === "BUY" ? s.signalBuy : s.signalSell}>{item.side}</span><div><strong>{item.name}</strong><small>{item.side === "BUY" ? "Momentum and participation confirmed" : "Risk condition crossed"}</small></div><b>{item.entry}</b><em>{item.confidence}</em></li>)}</ol></article>
-          <article className={s.alertHealth}><PanelHeading title="Delivery health" subtitle="Last 24 hours" /><div><strong>99.98%</strong><span>Successful delivery</span></div><ul><li><span>Median latency</span><strong>0.8 sec</strong></li><li><span>Duplicates blocked</span><strong>14</strong></li><li><span>Rules monitored</span><strong>{symbols.length}</strong></li></ul><p>Delivery metrics are interface examples; account persistence is not enabled.</p></article>
+          <article className={s.recentTriggers}><PanelHeading title="Live signal queue" subtitle="Derived from the current tracked movers" /><ol>{market.opportunities.map((item, index) => <li key={item.symbol}><time>{item.time}</time><span className={item.side === "BUY" ? s.signalBuy : s.signalSell}>{item.side}</span><div><strong>{item.name}</strong><small>{item.side === "BUY" ? "Positive price momentum" : "Negative price momentum"}</small></div><b>{item.entry}</b><em>{item.confidence}</em></li>)}</ol></article>
+          <article className={s.alertHealth}><PanelHeading title="Market feed health" subtitle="Current provider snapshot" /><div><strong>{sources.yahoo.mode === "live" ? "LIVE" : "—"}</strong><span>{sources.yahoo.name}</span></div><ul><li><span>Quotes loaded</span><strong>{market.equities?.length || 0}</strong></li><li><span>Sector feeds</span><strong>{market.sectors?.length || 0}</strong></li><li><span>Last update</span><strong>{formatIstTime(updatedAt)} IST</strong></li></ul><p>No synthetic delivery statistics are displayed.</p></article>
         </section>
       </div>
     </main>

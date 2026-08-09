@@ -55,7 +55,7 @@ test("homepage renders the live IPO GMP Tracker directly after Hero", async () =
     /<section[^>]+id="ipo-gmp-tracker"[^>]+aria-labelledby="ipo-market-intelligence-title"[\s\S]*?<\/section>/,
   );
   assert.ok(sectionMatch, "Missing labelled IPO GMP Tracker section");
-  assert.match(sectionMatch[0], /data-ipo-source="(?:live|partial|fallback)"/);
+  assert.match(sectionMatch[0], /data-ipo-source="(?:live|partial|unavailable)"/);
 
   const summaryMatch = sectionMatch[0].match(
     /<div[^>]+aria-label="IPO summary"[^>]*>([\s\S]*?)<table/,
@@ -69,7 +69,7 @@ test("homepage renders the live IPO GMP Tracker directly after Hero", async () =
 
   const bodyMatch = tableMatch[0].match(/<tbody>([\s\S]*?)<\/tbody>/);
   assert.ok(bodyMatch, "Missing GMP table body");
-  assert.equal((bodyMatch[1].match(/<tr>/g) || []).length, 7);
-  assert.ok((bodyMatch[1].match(/target="_blank"/g) || []).length >= 7);
-  assert.match(visibleText(bodyMatch[1]), /(?:am|pm)/i);
+  const rowCount = (bodyMatch[1].match(/<tr>/g) || []).length;
+  assert.ok(rowCount >= 1, "Expected at least one row from the live IPO provider");
+  assert.equal((bodyMatch[1].match(/target="_blank"/g) || []).length, rowCount);
 });

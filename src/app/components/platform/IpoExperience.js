@@ -15,14 +15,6 @@ import {
 } from "./WorkspacePrimitives";
 import s from "./TradingWorkspace.module.css";
 
-const CALENDAR = [
-  ["MON 10", "Offer opens", "Review issue terms and use of proceeds", "Open"],
-  ["WED 12", "Demand checkpoint", "Compare institutional and retail participation", "Review"],
-  ["FRI 14", "Offer closes", "Confirm final subscription by category", "Close"],
-  ["TUE 18", "Allotment", "Verify allocation and refund timeline", "Event"],
-  ["THU 20", "Listing day", "Observe price discovery and opening liquidity", "Listing"],
-];
-
 function money(value) {
   return Number.isFinite(value) ? "₹" + new Intl.NumberFormat("en-IN", { maximumFractionDigits: 2 }).format(value) : "—";
 }
@@ -41,6 +33,12 @@ export default function IpoExperience() {
   const byPremium = [...ipo.rows].sort((a, b) => (b.gmpPercent || 0) - (a.gmpPercent || 0));
   const bySize = [...ipo.rows].sort((a, b) => (b.issueSize || 0) - (a.issueSize || 0));
   const listed = ipo.rows.filter((row) => row.status === "listed");
+  const calendarEvents = ipo.rows.flatMap((row) => [
+    row.startDate ? { date: row.startDate, title: "Offer opens", company: row.company, copy: "Live IPO Alerts opening date", state: "Open" } : null,
+    row.endDate ? { date: row.endDate, title: "Offer closes", company: row.company, copy: "Live IPO Alerts closing date", state: "Close" } : null,
+    row.listingDate ? { date: row.listingDate, title: "Listing day", company: row.company, copy: "Live IPO Alerts listing date", state: "Listing" } : null,
+  ].filter(Boolean)).sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
+  const nextEvent = calendarEvents[0];
   const ipoCollections = [
     ["Tracked issues", "Complete primary-market coverage", ipo.rows.slice(0, 3).map((row) => [row.company, row.status, row.symbol || "Unlisted"]), "TR"],
     ["Highest GMP", "Unofficial premium watch", byPremium.slice(0, 3).map((row) => [row.company, row.gmpPercent == null ? "—" : `${row.gmpPercent.toFixed(2)}%`, money(row.gmp)]), "GM"],
@@ -70,13 +68,14 @@ export default function IpoExperience() {
           <article><span>Tracked issues</span><strong>{ipo.total}</strong><small>{sources.ipo.mode} provider state</small></article>
           <article><span>Positive GMP</span><strong>{positive}</strong><small>Unofficial interest indicator</small></article>
           <article><span>Highest GMP</span><strong>{ipo.highestGmp?.gmpPercent?.toFixed(2) || "—"}%</strong><small>{ipo.highestGmp?.company || "No live premium"}</small></article>
-          <article><span>Next decision</span><strong>10 Aug</strong><small>Offer-open review</small></article>
+          <article><span>Next IPO event</span><strong>{nextEvent ? new Intl.DateTimeFormat("en-IN", { day: "2-digit", month: "short", timeZone: "Asia/Kolkata" }).format(new Date(nextEvent.date)) : "—"}</strong><small>{nextEvent ? `${nextEvent.company} · ${nextEvent.title}` : "No live event date"}</small></article>
         </section>
 
         <section className={s.ipoCalendarBoard}>
           <PanelHeading title="Offer calendar" subtitle="Key primary-market decision points" action={<button type="button" className={s.outlineButton}>This month⌄</button>} />
           <div className={s.calendarHeader}><span>DATE</span><span>EVENT</span><span>WHAT TO REVIEW</span><span>STATE</span></div>
-          <ol>{CALENDAR.map(([date, title, copy, state], index) => <li key={title}><time>{date}</time><span className={s.calendarDot} data-state={state} /><div><strong>{title}</strong><small>{ipo.rows[index % Math.max(ipo.rows.length, 1)]?.company || "Tracked issue"}</small></div><p>{copy}</p><em>{state}</em></li>)}</ol>
+          <ol>{calendarEvents.map((event) => <li key={`${event.company}-${event.title}-${event.date}`} data-live="true"><time>{new Intl.DateTimeFormat("en-US", { weekday: "short", day: "2-digit", month: "short", timeZone: "Asia/Kolkata" }).format(new Date(event.date)).toUpperCase()}</time><span className={s.calendarDot} data-state={event.state} /><div><strong>{event.title}</strong><small>{event.company}</small></div><p>{event.copy}</p><em>{event.state}</em></li>)}</ol>
+          {!calendarEvents.length ? <p className={s.emptyState}>No dated IPO events are available from the live provider.</p> : null}
         </section>
 
         <section className={s.ipoScreener}>

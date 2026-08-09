@@ -7,6 +7,21 @@ import {
   normalizeQuote,
   normalizeSearchResult,
 } from "../src/lib/market-data/normalize.js";
+import { instrumentLogoUrl } from "../src/app/lib/instrument-logos.js";
+
+test("all displayed indices resolve to provider-backed brand logo endpoints", () => {
+  for (const symbol of [
+    "^GSPC", "^NDX", "^FTSE", "^GDAXI", "^N225", "^NSEI",
+    "^BSESN", "^NSEBANK", "^INDIAVIX", "^HSI", "000001.SS",
+    "^KS11", "^AXJO", "^STI", "^FCHI", "^STOXX50E", "^IBEX",
+    "FTSEMIB.MI", "^SSMI",
+  ]) {
+    assert.equal(
+      instrumentLogoUrl(symbol),
+      `/api/market/logo?symbol=${encodeURIComponent(symbol)}`,
+    );
+  }
+});
 
 test("normalizes a Yahoo quote into the homepage contract", () => {
   const quote = normalizeQuote({
@@ -29,14 +44,22 @@ test("normalizes a Yahoo quote into the homepage contract", () => {
     formattedChange: "+2.35%",
     direction: "up",
     volume: null,
+    averageVolume: null,
     open: null,
     high: null,
     low: null,
     previousClose: null,
+    fiftyTwoWeekHigh: null,
+    fiftyTwoWeekLow: null,
     currency: "INR",
+    exchange: null,
+    timeZone: null,
+    timeZoneShortName: null,
+    delayMinutes: null,
     marketState: "REGULAR",
     updatedAt: "2026-08-07T09:45:00.000Z",
     href: "https://finance.yahoo.com/quote/RELIANCE.NS/",
+    logoUrl: "/api/market/logo?symbol=RELIANCE.NS",
   });
 });
 
@@ -107,6 +130,7 @@ test("filters unsafe Yahoo search records and creates direct quote links", () =>
       exchange: "NSE",
       type: "EQUITY",
       href: "https://finance.yahoo.com/quote/TCS.NS/",
+      logoUrl: "/api/market/logo?symbol=TCS.NS",
     },
   );
 });

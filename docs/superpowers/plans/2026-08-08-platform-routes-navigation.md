@@ -4,7 +4,7 @@
 
 **Goal:** Replace the old anchor-only navbar with seven real Next.js destinations and ship six polished, responsive platform pages.
 
-**Architecture:** Keep the existing homepage hero intact while moving destination metadata into one shared module. A route-aware client header powers inner pages, while static Server Component route files feed dedicated content into a shared presentation shell. Pricing moves into the homepage composition so inner routes receive only the global Growth CTA and footer.
+**Architecture:** Keep the existing homepage hero intact while moving destination metadata into one shared module. A route-aware client header powers inner pages, while static Server Component route files feed dedicated content into a shared presentation shell. Pricing and the Growth CTA move into the homepage composition so inner routes receive only the global footer.
 
 **Tech Stack:** Next.js 16.2 App Router, React 19, `next/link`, `usePathname`, CSS Modules, Node test runner.
 
@@ -15,7 +15,7 @@
 - Create `/markets`, `/ipo`, `/products`, `/insights`, `/stock-alerts`, and `/live-markets`.
 - Keep Home at `/` and expose all seven destinations in desktop and mobile navigation.
 - Do not add dependencies or change existing APIs.
-- Inner routes must not repeat the Pricing section.
+- Inner routes must not repeat the Pricing or Growth CTA sections.
 
 ---
 

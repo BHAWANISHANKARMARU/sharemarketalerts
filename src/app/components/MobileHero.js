@@ -185,7 +185,7 @@ export default function MobileHero() {
               <div className={s.momentumCopy}>
                 <strong>Market Momentum</strong>
                 <span className={s.bullish}>{marketData.market.momentumLabel}</span>
-                <b>{marketData.market.momentumScore}%</b>
+                <b>{marketData.market.momentumScore === null ? "—" : `${marketData.market.momentumScore}%`}</b>
                 <span className={s.momentumLabel}>
                   Momentum Score <i aria-hidden="true">i</i>
                 </span>
