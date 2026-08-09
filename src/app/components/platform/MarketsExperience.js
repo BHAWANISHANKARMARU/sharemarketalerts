@@ -126,13 +126,14 @@ function GlobalMiniChart({ quote, series }) {
   const data = liveSeries(series);
 
   return (
-    <div className={s.globalMiniChart} aria-hidden="true" data-series-points={data.length}>
+    <div className={s.globalMiniChart} role="img" aria-label={`${quote.label} live price chart`} data-series-points={data.length}>
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart data={data} margin={{ top: 3, right: 1, bottom: 1, left: 1 }} baseValue="dataMin">
           <defs><linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor={color} stopOpacity={0.16} /><stop offset="100%" stopColor={color} stopOpacity={0} /></linearGradient></defs>
           <XAxis dataKey="index" hide />
           <YAxis domain={["dataMin", "dataMax"]} hide />
-          <Area type="monotone" dataKey="value" stroke={color} strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" fill={`url(#${gradientId})`} dot={false} isAnimationActive animationDuration={700} animationEasing="ease-out" />
+          <Tooltip content={<SectorChartTooltip name={quote.label} range="Live" />} cursor={false} isAnimationActive animationDuration={180} />
+          <Area type="monotone" dataKey="value" stroke={color} strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" fill={`url(#${gradientId})`} dot={false} activeDot={{ r: 3, fill: color, stroke: "#fff", strokeWidth: 1.5 }} isAnimationActive animationDuration={700} animationEasing="ease-out" />
         </AreaChart>
       </ResponsiveContainer>
     </div>

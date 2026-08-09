@@ -595,15 +595,15 @@
 .marketStatusCard > footer time { padding: 5px 7px; border-radius: 5px; background: #f6f0ff; color: #7515eb; font-size: 11px; font-weight: 750; }
 .marketStatusCard > footer em { margin-left: 4px; color: #8d62bc; font-size: 11px; font-style: normal; }
 .globalIndexRail { position: absolute; z-index: 3; top: 300px; right: var(--global-gutter); left: calc(var(--global-gutter) + 320px); display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; }
-.globalIndexCard { min-width: 0; height: 150px; position: relative; padding: 14px 13px 9px; overflow: hidden; border: 1px solid #e5dfed; border-radius: 13px; background: rgba(255,255,255,.98); box-shadow: 0 10px 26px rgba(43,29,71,.055); }
+.globalIndexCard { min-width: 0; height: 150px; position: relative; padding: 14px 13px 9px; overflow: hidden; display: grid; grid-template-rows: 20px 23px 16px minmax(42px,1fr) 14px; gap: 4px; border: 1px solid #e5dfed; border-radius: 13px; background: rgba(255,255,255,.98); box-shadow: 0 10px 26px rgba(43,29,71,.055); }
 .globalIndexCard header { display: grid; grid-template-columns: 20px minmax(0,1fr) auto; align-items: center; gap: 5px; }
 .globalIndexCard header > span { width: 20px; height: 20px; display: grid; place-items: center; border-radius: 5px; background: #f1e9ff; font-size: 11px; }
 .globalIndexCard header strong { overflow: hidden; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
 .globalIndexCard header small { padding: 2px 4px; border-radius: 3px; background: #f4f5f8; color: #737b90; font-size: 11px; }
-.globalIndexCard > b { margin: 8px 0 3px 26px; display: block; font-size: 17px; }
-.globalIndexCard > span { margin-left: 26px; font-size: 11px; }
-.globalMiniChart { height: 54px; position: absolute; top: 67px; right: 7px; left: 7px; }
-.globalIndexCard footer { position: absolute; right: 8px; bottom: 6px; left: 8px; display: flex; justify-content: space-between; color: #778097; font-size: 11px; }
+.globalIndexCard > b { margin-left: 26px; align-self: end; display: block; font-size: 17px; }
+.globalIndexCard > span { margin-left: 26px; align-self: start; font-size: 11px; }
+.globalMiniChart { min-height: 0; height: 100%; position: relative; margin-inline: -6px; }
+.globalIndexCard footer { position: relative; display: flex; align-items: end; justify-content: space-between; color: #778097; font-size: 11px; }
 .globalIndexCard footer span { display: flex; align-items: center; gap: 4px; }
 .globalIndexCard footer i { width: 4px; height: 4px; border-radius: 50%; background: #00b775; }
 .globalIndexCard footer em { font-style: normal; }
@@ -1210,15 +1210,15 @@
   .marketStatusCard > footer time,
   .marketStatusCard > footer em { font-size: 13px; }
   .globalIndexRail { top: 375px; left: calc(var(--global-gutter) + 405px); grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 15px; }
-  .globalIndexCard { height: 188px; padding: 18px 16px 11px; border-radius: 16px; }
+  .globalIndexCard { height: 188px; padding: 18px 16px 11px; grid-template-rows: 25px 29px 18px minmax(52px, 1fr) 15px; gap: 4px; border-radius: 16px; }
   .globalIndexCard header { grid-template-columns: 25px minmax(0, 1fr) auto; gap: 6px; }
   .globalIndexCard header > span { width: 25px; height: 25px; border-radius: 6px; font-size: 13px; }
   .globalIndexCard header strong { font-size: 14px; }
   .globalIndexCard header small { font-size: 11px; }
-  .globalIndexCard > b { margin: 10px 0 4px 32px; font-size: 21px; }
+  .globalIndexCard > b { margin-left: 32px; font-size: 21px; }
   .globalIndexCard > span { margin-left: 32px; font-size: 13px; }
-  .globalMiniChart { height: 68px; top: 84px; right: 9px; left: 9px; }
-  .globalIndexCard footer { right: 10px; bottom: 8px; left: 10px; font-size: 12px; }
+  .globalMiniChart { height: 100%; position: relative; top: auto; right: auto; left: auto; margin-inline: -7px; }
+  .globalIndexCard footer { right: auto; bottom: auto; left: auto; font-size: 12px; }
   .globalMarketGrid { margin-top: 25px; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; }
   .globalMarketPanel { height: 410px; padding: 0 20px 18px; border-radius: 18px; }
   .globalMarketPanel > header { min-height: 78px; }
