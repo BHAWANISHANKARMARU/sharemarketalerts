@@ -205,9 +205,9 @@ function CoreMark() {
     <svg className={s.coreMark} viewBox="0 0 54 48" aria-hidden="true">
       <defs>
         <linearGradient id="core-a" x1="0" y1="1" x2="1" y2="0">
-          <stop offset="0" stopColor="#5a13ff" />
-          <stop offset=".52" stopColor="#a942ff" />
-          <stop offset="1" stopColor="#6418ff" />
+          <stop offset="0" stopColor="#006b3c" />
+          <stop offset=".52" stopColor="#00a76f" />
+          <stop offset="1" stopColor="#007a55" />
         </linearGradient>
         <filter id="core-glow" x="-80%" y="-80%" width="260%" height="260%">
           <feGaussianBlur stdDeviation="4" result="glow" />
@@ -239,8 +239,8 @@ function OutcomeChart() {
 function ScoreRing() {
   return (
     <svg className={s.scoreRing} viewBox="0 0 54 54" aria-hidden="true">
-      <circle cx="27" cy="27" r="21" fill="none" stroke="#e5d8ff" strokeWidth="6" />
-      <circle cx="27" cy="27" r="21" fill="none" stroke="#7810f4" strokeWidth="6" strokeLinecap="round" pathLength="100" strokeDasharray="87 13" transform="rotate(-90 27 27)" />
+      <circle cx="27" cy="27" r="21" fill="none" stroke="#dcefe6" strokeWidth="6" />
+      <circle cx="27" cy="27" r="21" fill="none" stroke="#007a55" strokeWidth="6" strokeLinecap="round" pathLength="100" strokeDasharray="87 13" transform="rotate(-90 27 27)" />
     </svg>
   );
 }

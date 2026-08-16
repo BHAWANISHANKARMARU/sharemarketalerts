@@ -13,6 +13,14 @@ test("live Indian revenue estimates format identically on server and browser", a
   assert.equal(formatIndianRevenue(null), "—");
 });
 
+test("live market clock has a deterministic hydration-safe first render", async () => {
+  const { formatLiveMarketTime } = await import("../src/app/lib/market-formatters.js");
+
+  assert.equal(formatLiveMarketTime(null), "--:--:-- IST");
+  assert.equal(formatLiveMarketTime("not-a-date"), "--:--:-- IST");
+  assert.equal(formatLiveMarketTime("2026-08-16T16:30:00.000Z"), "10:00:00 pm IST");
+});
+
 test("market calendar model exposes the complete reference week and grouped events", async () => {
   const {
     CALENDAR_DAYS,

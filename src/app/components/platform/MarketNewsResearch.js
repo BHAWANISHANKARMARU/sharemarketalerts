@@ -9,10 +9,10 @@ import s from "./MarketReferenceSections.module.css";
 const TABS = ["All Briefs", "Markets", "Sectors", "Equities", "Global"];
 const INDEX_SYMBOLS = ["^NSEI", "^BSESN", "^NSEBANK", "^INDIAVIX"];
 const BRIEF_IMAGES = [
-  "/images/market-news-bse.png",
-  "/images/market-news-chart.png",
+  "/images/market-news-bse-green.png",
+  "/images/market-news-chart-green.png",
   "/images/market-news-rbi.png",
-  "/images/market-news-handshake.png",
+  "/images/market-news-handshake-green.png",
 ];
 
 function NewsIcon({ name = "news" }) {

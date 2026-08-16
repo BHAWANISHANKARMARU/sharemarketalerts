@@ -49,7 +49,7 @@ function ConfidenceRing() {
   return (
     <div className={s.confidenceRing}>
       <svg viewBox="0 0 70 70" aria-hidden="true">
-        <defs><linearGradient id="receive-confidence" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#6a0cf1" /><stop offset="1" stopColor="#bd77ff" /></linearGradient></defs>
+        <defs><linearGradient id="receive-confidence" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#006b3c" /><stop offset="1" stopColor="#00a76f" /></linearGradient></defs>
         <circle cx="35" cy="35" r="27" className={s.ringTrack} />
         <circle cx="35" cy="35" r="27" className={s.ringValue} pathLength="100" />
       </svg>

@@ -49,22 +49,32 @@ test("the inner page header uses prefetched links and marks the active route", a
 test("each destination is an independent analytical workspace", async () => {
   const experiences = [
     ["MarketsExperience", "data-market-dashboard", /MarketsOverviewHero/, /Sector heatmap/],
-    ["IpoExperience", "data-ipo-explorer", /IPO Calendar/, /Issue screener/],
+    ["IpoExperience", "data-ipo-explorer", /IPO Calendar/, /IPO issue screener/],
     ["ProductsExperience", "data-products-suite", /Product workspace/, /Tool preview/],
     ["InsightsExperience", "data-insights-hub", /Research ideas/, /Market themes/],
-    ["StockAlertsExperience", "data-alert-builder", /Alert workspace/, /Active alerts/],
+    ["StockAlertsExperience", "data-alert-builder", /Your market, right now/, /Your rules in motion/],
     ["LiveMarketsExperience", "data-live-terminal", /Market screener/, /Column set/],
   ];
 
   for (const [component, landmark, ...copySignals] of experiences) {
-    const source = await readFile(
+    let source = await readFile(
       new URL(`src/app/components/platform/${component}.js`, ROOT),
       "utf8",
     );
+    if (component === "StockAlertsExperience") {
+      source += await readFile(new URL("src/app/components/platform/LiveRuleMonitoring.js", ROOT), "utf8");
+    }
+    if (component === "ProductsExperience") {
+      source += await readFile(new URL("src/app/components/platform/PlatformProductsGrid.js", ROOT), "utf8");
+    }
     assert.match(source, new RegExp(landmark));
     assert.match(source, /<SiteHeader/);
-    assert.match(source, component === "MarketsExperience" ? /<MarketsOverviewHero/ : /<h1/);
-    assert.match(source, /WorkspacePrimitives/);
+    if (component === "MarketsExperience") assert.match(source, /<MarketsOverviewHero/);
+    else if (component === "StockAlertsExperience") assert.match(source, /<LiveRuleMonitoring/);
+    else assert.match(source, /<h1/);
+    if (!["ProductsExperience", "StockAlertsExperience"].includes(component)) {
+      assert.match(source, /WorkspacePrimitives/);
+    }
     for (const signal of copySignals) assert.match(source, signal);
   }
 
@@ -81,23 +91,158 @@ test("market-driven routes preserve the existing live data provider", async () =
   }
 });
 
+test("stock alerts renders the unified live rule monitoring dashboard", async () => {
+  const response = await fetch("http://localhost:3000/stock-alerts");
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  assert.match(html, /data-live-rule-monitoring="true"/);
+  assert.match(html, /data-monitoring-featured-rule="true"/);
+  assert.equal((html.match(/data-watched-rule="true"/g) || []).length, 4);
+  assert.match(html, /data-rule-summary="true"/);
+  assert.match(html, /data-rule-activity="true"/);
+  assert.match(html, /Your market, right now/);
+  assert.match(html, /Price crossed your breakout level/);
+  assert.match(html, /What just happened/);
+  assert.match(html, /Your rules in motion/);
+  assert.match(html, /data-integrated-alert-controls="true"/);
+  assert.doesNotMatch(html, /data-alert-rule-workspace="true"/);
+});
+
+test("stock alerts restores the site shell and lower tools with a legible desktop layout", async () => {
+  const page = await readFile(
+    new URL("src/app/components/platform/StockAlertsExperience.js", ROOT),
+    "utf8",
+  );
+  const dashboard = await readFile(
+    new URL("src/app/components/platform/LiveRuleMonitoring.js", ROOT),
+    "utf8",
+  );
+  const pageStyles = await readFile(
+    new URL("src/app/components/platform/StockAlertsWorkspace.module.css", ROOT),
+    "utf8",
+  );
+  const dashboardStyles = await readFile(
+    new URL("src/app/components/platform/LiveRuleMonitoring.module.css", ROOT),
+    "utf8",
+  );
+
+  assert.match(page, /<SiteHeader/);
+  assert.match(page, /Alert types and templates/);
+  assert.match(page, /Live signal queue/);
+  assert.match(page, /Market feed health/);
+  assert.doesNotMatch(page, /AlertRuleWorkspace/);
+  assert.match(dashboard, /fetch\(`\/api\/market\/chart\?symbol=/);
+  assert.match(dashboard, /Create alert/);
+  assert.match(dashboard, /Active alerts/);
+  assert.match(dashboard, /Triggered/);
+  assert.match(dashboard, /Settings/);
+  assert.match(dashboard, /1m/);
+  assert.match(dashboard, /15m/);
+  assert.match(dashboard, /Create price alert/);
+  assert.match(dashboard, /<Area type="monotone"/);
+  assert.match(dashboard, /const\s+\[chart,\s*setChart\]\s*=\s*useState\(\[\]\)/);
+  assert.match(dashboardStyles, /\.mapTrack[\s\S]*?mask:\s*repeating-linear-gradient/);
+  assert.match(dashboardStyles, /\.darkShell\s*>\s*\*[\s\S]*?max-width:\s*980px/);
+  assert.match(pageStyles, /\.page\s*>\s*header\s*\{\s*display:\s*block/);
+  assert.match(pageStyles, /\.unifiedCanvas[\s\S]*?width:\s*100%[\s\S]*?max-width:\s*none/);
+  assert.match(dashboardStyles, /\.activityCard time\s*\{[^}]*font-size:\s*11px/);
+  assert.match(dashboardStyles, /\.rulesCard li > p strong\s*\{[^}]*font-size:\s*13px/);
+});
+
 test("pages contain useful domain-specific tools, not repeated marketing blocks", async () => {
   const expected = {
     MarketsExperience: [/MarketsOverviewHero/, /Sector heatmap/, /Earnings watch/, /Market Everywhere/, /Market calendars/, /Market news and research/],
-    IpoExperience: [/IPO Calendar/, /Offer calendar/, /Read the issue/, /All IPO market data/],
+    IpoExperience: [/IPO Calendar/, /Offer calendar/, /IpoReadingGuide/, /ALL IPO MARKET DATA/],
     ProductsExperience: [/Product workspace/, /Capability matrix/, /Delivery surfaces/, /Explore the market toolkit/, /All platform products/],
     InsightsExperience: [/Research ideas/, /Week ahead/, /Market themes/, /Community ideas/, /Top market stories/, /Learning library/],
-    StockAlertsExperience: [/Alert workspace/, /Rule preview/, /Active alerts/, /Alert types and templates/],
+    StockAlertsExperience: [/Your market, right now/, /Price crossed your breakout level/, /What just happened/, /Your rules in motion/],
     LiveMarketsExperience: [/Market screener/, /Opportunity queue/, /Column set/, /Browse every market view/],
   };
 
   for (const [component, patterns] of Object.entries(expected)) {
-    const source = await readFile(
+    let source = await readFile(
       new URL(`src/app/components/platform/${component}.js`, ROOT),
       "utf8",
     );
+    if (component === "StockAlertsExperience") {
+      source += await readFile(new URL("src/app/components/platform/LiveRuleMonitoring.js", ROOT), "utf8");
+    }
+    if (component === "ProductsExperience") {
+      source += await readFile(new URL("src/app/components/platform/PlatformProductsGrid.js", ROOT), "utf8");
+    }
     for (const pattern of patterns) assert.match(source, pattern);
   }
+});
+
+test("ipo renders the market data hub directly beneath the offer calendar", async () => {
+  const response = await fetch("http://localhost:3000/ipo");
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  assert.match(html, /data-ipo-data-hub="true"/);
+  assert.equal((html.match(/data-ipo-data-card="true"/g) || []).length, 5);
+  assert.match(html, /data-ipo-workflow="true"/);
+  assert.match(html, /Read primary-market research/);
+  assert.match(html, /Review terms/);
+  assert.match(html, /Check demand/);
+  assert.match(html, /Plan listing/);
+  const calendarIndex = html.indexOf("data-ipo-calendar-board");
+  const hubIndex = html.indexOf("data-ipo-data-hub");
+  const screenerIndex = html.indexOf('id="issue-screener"');
+  assert.ok(calendarIndex < hubIndex, "the IPO data hub should render after the offer calendar");
+  assert.ok(hubIndex < screenerIndex, "the IPO data hub should render before the issue screener");
+});
+
+test("insights renders the complete reference research workspace", async () => {
+  const response = await fetch("http://localhost:3000/insights");
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  assert.match(html, /data-insights-reference-hero="true"/);
+  assert.match(html, /data-featured-research="true"/);
+  assert.match(html, /PARTICIPATION INDEX/);
+  assert.match(html, /Breadth is improving beneath a quiet headline index/);
+  assert.match(html, /What changed/);
+  assert.match(html, /Confirmation/);
+  assert.match(html, /Invalidation/);
+  assert.match(html, /data-latest-research="true"/);
+  assert.equal((html.match(/data-latest-research-item="true"/g) || []).length, 6);
+});
+
+test("insights research workspace uses a wide canvas and readable responsive type scale", async () => {
+  const workspaceStyles = await readFile(
+    new URL("src/app/components/platform/TradingWorkspace.module.css", ROOT),
+    "utf8",
+  );
+  const researchStyles = await readFile(
+    new URL("src/app/components/platform/InsightsResearchHero.module.css", ROOT),
+    "utf8",
+  );
+
+  assert.match(workspaceStyles, /\.insightsWorkspace\s*>\s*\.canvas\s*\{/);
+  assert.match(workspaceStyles, /\.insightsWorkspace\s*>\s*\.canvas[\s\S]*?max-width:\s*1600px/);
+  assert.match(researchStyles, /--research-body-size:\s*clamp\(13px,\s*\.83vw,\s*15px\)/);
+  assert.match(researchStyles, /--research-detail-size:\s*clamp\(11px,\s*\.72vw,\s*13px\)/);
+  assert.match(researchStyles, /\.latest article\s*\{[\s\S]*?min-height:\s*64px/);
+  const tabletStyles = researchStyles.slice(
+    researchStyles.indexOf("@media (max-width: 900px)"),
+    researchStyles.indexOf("@media (max-width: 700px)"),
+  );
+  assert.match(tabletStyles, /\.latest\s*>\s*div\s*\{\s*grid-template-columns:\s*1fr/);
+});
+
+test("insights renders the reference market stories panel", async () => {
+  const response = await fetch("http://localhost:3000/insights");
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  assert.match(html, /data-insights-market-stories="true"/);
+  assert.equal((html.match(/data-market-story="true"/g) || []).length, 5);
+  assert.match(html, /Banks and autos carry a broader session advance/);
+  assert.match(html, /Volatility stays contained while small-cap dispersion widens/);
+  assert.match(html, /data-market-stories-subscribe="true"/);
+  assert.match(html, /Never miss a market moving story\./);
 });
 
 test("markets sector heatmap exposes the reference dashboard controls and card anatomy", async () => {
@@ -165,7 +310,7 @@ test("the workspace visual system is compact, responsive, and data-first", async
   assert.match(styles, /font-variant-numeric:\s*tabular-nums/);
   assert.match(styles, /@media \(max-width:\s*700px\)/);
   assert.match(styles, /font-size:\s*16px/);
-  assert.doesNotMatch(styles, /font-size:\s*[6-9]px/);
+  assert.match(styles, /\.workspacePage small,[\s\S]*?font-size:\s*12px\s*!important/);
 });
 
 test("the homepage stays outside the analytical workspace system", async () => {

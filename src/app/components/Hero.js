@@ -370,15 +370,15 @@ export default function Hero() {
             <svg viewBox="0 0 200 108" aria-hidden="true">
               <defs>
                 <linearGradient id="riskArc" x1="0" y1="1" x2="1" y2="0">
-                  <stop offset="0%" stopColor="#3f1fe0" />
-                  <stop offset="60%" stopColor="#7357f0" />
-                  <stop offset="100%" stopColor="#8f7bf5" />
+                  <stop offset="0%" stopColor="#006b3c" />
+                  <stop offset="60%" stopColor="#007a55" />
+                  <stop offset="100%" stopColor="#00a76f" />
                 </linearGradient>
               </defs>
               <path
                 d="M18 100a82 82 0 0 1 164 0"
                 fill="none"
-                stroke="#e6e2fb"
+                stroke="#dff4ea"
                 strokeWidth="22"
                 strokeLinecap="round"
               />

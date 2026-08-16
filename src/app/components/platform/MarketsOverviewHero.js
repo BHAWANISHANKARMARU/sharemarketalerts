@@ -13,7 +13,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import marketHeroImage from "../../../../ChatGPT Image Aug 9, 2026, 06_43_08 PM.png";
+import marketHeroImage from "../../../../public/images/markets-indian-exchange-green.png";
 import { buildMarketsOverview } from "../../../lib/market-data/markets-overview";
 import { MARKET_RANGES } from "../../../lib/market-data/ranges";
 import { formatIstTime, InstrumentMark } from "./WorkspacePrimitives";
@@ -132,9 +132,9 @@ function MarketChart({ data }) {
         <AreaChart data={points} margin={{ top: 14, right: 2, bottom: 0, left: -4 }}>
           <defs>
             <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#9b28ff" stopOpacity="0.18" />
-              <stop offset="56%" stopColor="#9b28ff" stopOpacity="0.055" />
-              <stop offset="100%" stopColor="#9b28ff" stopOpacity="0" />
+              <stop offset="0%" stopColor="#007a55" stopOpacity="0.18" />
+              <stop offset="56%" stopColor="#007a55" stopOpacity="0.055" />
+              <stop offset="100%" stopColor="#007a55" stopOpacity="0" />
             </linearGradient>
           </defs>
           <CartesianGrid vertical={false} horizontalCoordinatesGenerator={({ height }) => [height * 0.2, height * 0.5, height * 0.8]} stroke="#f3f4f6" strokeOpacity={0.9} />
@@ -152,13 +152,13 @@ function MarketChart({ data }) {
           <Area
             type="monotone"
             dataKey="value"
-            stroke="#9925ff"
+            stroke="#007a55"
             strokeWidth={2.75}
             strokeLinecap="round"
             strokeLinejoin="round"
             fill={`url(#${gradientId})`}
             dot={false}
-            activeDot={{ r: 3, fill: "#8d19f6", stroke: "#fff", strokeWidth: 1.5 }}
+            activeDot={{ r: 3, fill: "#007a55", stroke: "#fff", strokeWidth: 1.5 }}
             isAnimationActive
             animationDuration={700}
             animationEasing="ease-out"

@@ -4,8 +4,8 @@
   height: calc(770 * var(--tm-u));
   max-height: 1068.69px;
   overflow: hidden;
-  background: #fbfbff;
-  color: #0c062c;
+  background: var(--surface-soft, #f4f9f8);
+  color: #0a291d;
   font-family: var(--font-sans), Arial, sans-serif;
 }
 
@@ -15,9 +15,7 @@
   height: 100%;
   margin: 0 auto;
   overflow: hidden;
-  background:
-    radial-gradient(circle at 48% 40%, rgba(153, 49, 244, .045), transparent 34%),
-    linear-gradient(180deg, #fdfdff 0%, #fbfbff 100%);
+  background: var(--surface-soft, #f4f9f8);
 }
 
 .header {
@@ -31,7 +29,7 @@
 }
 
 .eyebrow {
-  color: #8a16f2;
+  color: #14855a;
   font-size: calc(13 * var(--tm-u));
   font-weight: 800;
   line-height: 1;
@@ -57,7 +55,7 @@
 }
 
 .header h2 em {
-  color: #8613ec;
+  color: #178259;
   font-family: var(--font-serif), Georgia, serif;
   font-style: italic;
   font-weight: 520;
@@ -65,7 +63,7 @@
 
 .intro {
   margin-top: calc(12 * var(--tm-u));
-  color: #5f5d70;
+  color: #5e6f68;
   font-size: calc(18.5 * var(--tm-u));
   font-weight: 500;
   line-height: 1.18;
@@ -131,11 +129,11 @@
   margin: 0;
   padding: 0;
   list-style: none;
-  border: calc(.8 * var(--tm-u)) solid rgba(225, 221, 235, .88);
+  border: calc(.8 * var(--tm-u)) solid rgba(222, 234, 229, .88);
   border-radius: calc(18 * var(--tm-u));
   background: rgba(255, 255, 255, .93);
   box-shadow:
-    0 calc(7 * var(--tm-u)) calc(15 * var(--tm-u)) rgba(45, 25, 94, .12),
+    0 calc(7 * var(--tm-u)) calc(15 * var(--tm-u)) rgba(32, 91, 68, .12),
     inset 0 calc(1 * var(--tm-u)) 0 rgba(255, 255, 255, .9);
 }
 
@@ -174,7 +172,7 @@
   width: calc(1 * var(--tm-u));
   height: calc(58 * var(--tm-u));
   transform: translateY(-50%);
-  background: #dedce7;
+  background: #dde6e3;
 }
 
 .metricIcon {
@@ -184,14 +182,14 @@
   place-items: center;
   flex: none;
   border-radius: 50%;
-  background: #f5efff;
+  background: #e8fdf5;
 }
 
 .metricIcon svg {
   width: calc(32 * var(--tm-u));
   height: calc(32 * var(--tm-u));
   fill: none;
-  stroke: #8429ef;
+  stroke: #168359;
   stroke-width: 1.9;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -214,7 +212,7 @@
 
 .metricCopy > span {
   margin-top: calc(7 * var(--tm-u));
-  color: #565469;
+  color: #556861;
   font-size: calc(13.5 * var(--tm-u));
   font-weight: 500;
   line-height: 1.12;
@@ -316,7 +314,7 @@
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 10px;
-    border: 1px solid rgba(225, 221, 235, .92);
+    border: 1px solid rgba(222, 234, 229, .92);
     border-radius: 18px;
   }
 
@@ -332,7 +330,7 @@
     justify-content: center;
     text-align: center;
     border-radius: 14px;
-    background: #fbf9ff;
+    background: #e8fdf5;
   }
 
   .metrics li:not(:last-child)::after {

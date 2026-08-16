@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import momentumImage from "../../../public/images/mobile-market-momentum-v1.png";
+import momentumImage from "../../../public/images/mobile-market-momentum-green.png";
 import { useMarketData } from "./MarketDataProvider";
 import { NAV_ITEMS } from "./siteNavigation";
 import {
@@ -59,14 +59,14 @@ function RiskGauge() {
       <path
         d="M8 46a37 37 0 0 1 74 0"
         fill="none"
-        stroke="#e6e1fb"
+        stroke="#dcefe6"
         strokeWidth="9"
         strokeLinecap="round"
       />
       <path
         d="M8 46a37 37 0 0 1 74 0"
         fill="none"
-        stroke="#7217f4"
+        stroke="#007a55"
         strokeWidth="9"
         strokeLinecap="round"
         strokeDasharray="116"

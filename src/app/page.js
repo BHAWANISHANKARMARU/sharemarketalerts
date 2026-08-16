@@ -9,21 +9,24 @@ import Pricing from "./components/Pricing";
 import GrowthCta from "./components/GrowthCta";
 import MarketDataProvider from "./components/MarketDataProvider";
 import { getHomeMarketData } from "../lib/market-data/home.js";
+import { emeraldThemeStyle } from "../lib/visual-themes.js";
 
 export default async function Home() {
   const marketData = await getHomeMarketData();
 
   return (
-    <MarketDataProvider initialData={marketData}>
-      <Hero />
-      <IpoMarketIntelligence />
-      <HowItWorks />
-      <WhatYouReceive />
-      <MarketIntelligence />
-      <MarketCoverage />
-      <Testimonials />
-      <Pricing />
-      <GrowthCta />
-    </MarketDataProvider>
+    <main data-home-emerald-theme style={emeraldThemeStyle}>
+      <MarketDataProvider initialData={marketData}>
+        <Hero />
+        <IpoMarketIntelligence />
+        <HowItWorks />
+        <WhatYouReceive />
+        <MarketIntelligence />
+        <MarketCoverage />
+        <Testimonials />
+        <Pricing />
+        <GrowthCta />
+      </MarketDataProvider>
+    </main>
   );
 }

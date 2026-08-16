@@ -36,7 +36,7 @@ test("markets route renders the complete reference dashboard before lower sectio
   assert.match(hero, /\/api\/market\/chart/);
   assert.match(hero, /data-chart-engine="recharts"/);
   assert.match(hero, /from "next\/image"/);
-  assert.match(hero, /ChatGPT Image Aug 9, 2026, 06_43_08 PM\.png/);
+  assert.match(hero, /markets-indian-exchange-green\.png/);
   assert.doesNotMatch(hero, /<mask/);
   assert.match(hero, /sourceMode/);
   assert.match(hero, /aria-expanded/);
@@ -73,7 +73,7 @@ test("markets route renders the complete reference dashboard before lower sectio
   assert.match(experience, /Sector heatmap/);
   assert.doesNotMatch(experience, /<section className=\{s\.marketSummary\}/);
 
-  await access(new URL("ChatGPT Image Aug 9, 2026, 06_43_08 PM.png", ROOT));
+  await access(new URL("public/images/markets-indian-exchange-green.png", ROOT));
 });
 
 test("markets renders the quote board and earnings timeline as distinct live workspaces", async () => {

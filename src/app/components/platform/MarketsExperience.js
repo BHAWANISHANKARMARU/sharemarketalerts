@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useMemo, useState } from "react";
 import Link from "next/link";
-import worldMapImage from "../../../../ChatGPT Image Aug 9, 2026, 02_29_35 PM.png";
+import worldMapImage from "../../../../public/images/world-market-map-green.png";
 import {
   Area,
   AreaChart,

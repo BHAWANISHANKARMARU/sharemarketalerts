@@ -15,3 +15,20 @@ export function formatIndianRevenue(value) {
   if (crore >= 1) return `${sign}₹${oneDecimal(crore)}Cr`;
   return `${sign}₹${absolute.toFixed(2)}`;
 }
+
+export function formatLiveMarketTime(value) {
+  if (!value) return "--:--:-- IST";
+
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "--:--:-- IST";
+
+  const time = new Intl.DateTimeFormat("en-IN", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true,
+    timeZone: "Asia/Kolkata",
+  }).format(date);
+
+  return `${time} IST`;
+}

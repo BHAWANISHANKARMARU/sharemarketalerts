@@ -7,12 +7,12 @@ import { ArrowRight, LogoMark } from "./icons";
 import { NAV_ITEMS } from "./siteNavigation";
 import styles from "./SiteHeader.module.css";
 
-export default function SiteHeader() {
+export default function SiteHeader({ theme = "default" }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
   return (
-    <header className={styles.header} data-site-header="true">
+    <header className={styles.header} data-site-header="true" data-header-theme={theme}>
       <div className={styles.inner}>
         <Link className={styles.brand} href="/" aria-label="ShareMarketAlerts home">
           <LogoMark className={styles.logo} />

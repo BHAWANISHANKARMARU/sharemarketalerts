@@ -1,6 +1,6 @@
 "use client";
 
-import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Area, AreaChart, CartesianGrid, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { useId } from "react";
 import s from "./PremiumTrendChart.module.css";
 
@@ -21,12 +21,25 @@ function ChartTooltip({ active, payload, label, prefix = "" }) {
   );
 }
 
-export default function PremiumTrendChart({ data, label, tone = "purple", prefix = "" }) {
+function RuleLevelLabel({ viewBox, value, prefix }) {
+  if (!viewBox || !Number.isFinite(value)) return null;
+  return (
+    <g className={s.ruleLevelLabel} transform={`translate(${viewBox.x}, ${viewBox.y - 9})`}>
+      <rect width="46" height="18" rx="4" />
+      <text x="23" y="12" textAnchor="middle">{prefix}{Math.round(value)}</text>
+    </g>
+  );
+}
+
+export default function PremiumTrendChart({ data, label, tone = "purple", prefix = "", referenceValue = null }) {
   const id = `premium-${useId().replaceAll(":", "")}`;
   const color = tones[tone] || tones.purple;
   const values = data.map((point) => Number(point.value)).filter(Number.isFinite);
-  const min = values.length ? Math.min(...values) : 0;
-  const max = values.length ? Math.max(...values) : 100;
+  const numericReference = Number(referenceValue);
+  const hasReference = Number.isFinite(numericReference);
+  const domainValues = hasReference ? [...values, numericReference] : values;
+  const min = domainValues.length ? Math.min(...domainValues) : 0;
+  const max = domainValues.length ? Math.max(...domainValues) : 100;
   const pad = Math.max((max - min) * 0.28, max * 0.0015, 1);
   const chartData = data.map((point, index) => ({
     ...point,
@@ -51,6 +64,16 @@ export default function PremiumTrendChart({ data, label, tone = "purple", prefix
           <XAxis dataKey="index" hide axisLine={false} tickLine={false} />
           <YAxis domain={[min - pad, max + pad]} hide axisLine={false} tickLine={false} />
           <Tooltip content={<ChartTooltip label={label} prefix={prefix} />} cursor={false} animationDuration={180} />
+          {hasReference && (
+            <ReferenceLine
+              y={numericReference}
+              stroke={color}
+              strokeWidth={1.25}
+              strokeDasharray="4 4"
+              ifOverflow="extendDomain"
+              label={<RuleLevelLabel value={numericReference} prefix={prefix} />}
+            />
+          )}
           <Area
             type="monotone"
             dataKey="value"

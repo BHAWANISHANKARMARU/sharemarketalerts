@@ -38,7 +38,7 @@ const trustBrands = [
 ];
 
 const avatars = [
-  { skin: "#c77856", shirt: "#8f22f6", hair: "#2d1720" },
+  { skin: "#c77856", shirt: "#007a55", hair: "#2d1720" },
   { skin: "#d5906d", shirt: "#137c9c", hair: "#302219" },
   { skin: "#b86b4a", shirt: "#bb552b", hair: "#141117" },
   { skin: "#e0a07b", shirt: "#127767", hair: "#5d2d24" },

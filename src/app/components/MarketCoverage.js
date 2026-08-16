@@ -351,24 +351,24 @@ function CoverageGlobe() {
       <defs>
         <radialGradient id="mc-sphere" cx="48%" cy="39%" r="62%">
           <stop offset="0" stopColor="#ffffff" stopOpacity=".98" />
-          <stop offset=".56" stopColor="#f1e8ff" stopOpacity=".96" />
-          <stop offset="1" stopColor="#d7c2ff" stopOpacity=".9" />
+          <stop offset=".56" stopColor="#e8f6ef" stopOpacity=".96" />
+          <stop offset="1" stopColor="#ccefe1" stopOpacity=".9" />
         </radialGradient>
         <radialGradient id="mc-core" cx="50%" cy="46%" r="54%">
-          <stop offset="0" stopColor="#8f4cf4" stopOpacity=".3" />
-          <stop offset=".7" stopColor="#7f25f0" stopOpacity=".11" />
-          <stop offset="1" stopColor="#8a2df5" stopOpacity="0" />
+          <stop offset="0" stopColor="#00a76f" stopOpacity=".3" />
+          <stop offset=".7" stopColor="#007a55" stopOpacity=".11" />
+          <stop offset="1" stopColor="#00875f" stopOpacity="0" />
         </radialGradient>
         <linearGradient id="mc-orbit" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#c5a2ff" stopOpacity=".05" />
-          <stop offset=".48" stopColor="#8c32f5" stopOpacity=".22" />
-          <stop offset="1" stopColor="#c7a3ff" stopOpacity=".08" />
+          <stop offset="0" stopColor="#b9ead6" stopOpacity=".05" />
+          <stop offset=".48" stopColor="#00a76f" stopOpacity=".22" />
+          <stop offset="1" stopColor="#c5eedf" stopOpacity=".08" />
         </linearGradient>
         <pattern id="mc-dots" width="5" height="5" patternUnits="userSpaceOnUse">
-          <circle cx="1.4" cy="1.4" r=".76" fill="#9561ed" opacity=".36" />
+          <circle cx="1.4" cy="1.4" r=".76" fill="#27b983" opacity=".36" />
         </pattern>
         <pattern id="mc-land-dots" width="4" height="4" patternUnits="userSpaceOnUse">
-          <circle cx="1.25" cy="1.25" r="1.05" fill="#6f35e4" opacity=".88" />
+          <circle cx="1.25" cy="1.25" r="1.05" fill="#007a55" opacity=".88" />
         </pattern>
         <clipPath id="mc-sphere-clip">
           <circle cx="360" cy="192" r="170" />
@@ -386,7 +386,7 @@ function CoverageGlobe() {
         cy="366"
         rx="135"
         ry="23"
-        fill="#781cf0"
+        fill="#007a55"
         opacity=".28"
         filter="url(#mc-blur-18)"
       />
@@ -425,7 +425,7 @@ function CoverageGlobe() {
         cx="360"
         cy="192"
         r="188"
-        fill="#8b28f5"
+        fill="#00875f"
         opacity=".09"
         filter="url(#mc-blur-8)"
       />
@@ -436,7 +436,7 @@ function CoverageGlobe() {
         <rect x="190" y="22" width="340" height="340" fill="url(#mc-dots)" />
         <g
           fill="none"
-          stroke="#a875f4"
+          stroke="#5bcba3"
           strokeWidth=".7"
           opacity=".23"
         >
@@ -476,11 +476,11 @@ function CoverageGlobe() {
         cy="192"
         r="170"
         fill="none"
-        stroke="#b884ff"
+        stroke="#73d7b3"
         strokeWidth="1.1"
         opacity=".42"
       />
-      <g fill="#8b18f4">
+      <g fill="#007a55">
         <circle cx="53" cy="120" r="4" />
         <circle cx="667" cy="120" r="4" />
         <circle cx="70" cy="211" r="3.4" />
@@ -488,7 +488,7 @@ function CoverageGlobe() {
         <circle cx="86" cy="309" r="3.2" />
         <circle cx="632" cy="309" r="3.2" />
       </g>
-      <g fill="#fff" stroke="#a349fa" strokeWidth="1.4">
+      <g fill="#fff" stroke="#00a76f" strokeWidth="1.4">
         <circle cx="53" cy="120" r="1.7" />
         <circle cx="667" cy="120" r="1.7" />
         <circle cx="70" cy="211" r="1.4" />
@@ -537,7 +537,7 @@ export default function MarketCoverage() {
 
         <div className={styles.globeStage} aria-hidden="true">
           <Image
-            src="/images/market-coverage-globe-reference.png"
+            src="/images/market-coverage-globe-green.png"
             alt=""
             width={1318}
             height={1193}

@@ -1,0 +1,367 @@
+.page {
+  --ipo-green: #006946;
+  --ipo-green-2: #009b69;
+  --ipo-ink: #0b1713;
+  --ipo-muted: #66716d;
+  --ipo-line: #e1e8e4;
+  --ipo-surface: #ffffff;
+  width: 100%;
+  min-height: 100vh;
+  overflow: clip;
+  color: var(--ipo-ink);
+  background: #fff;
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+.content {
+  width: min(calc(100% - clamp(32px, 13.3vw, 144px)), 1440px);
+  margin-inline: auto;
+}
+
+.hero {
+  position: relative;
+  height: clamp(206px, 16.5vw, 228px);
+  overflow: hidden;
+  border-bottom: 1px solid #dfe7e2;
+  background-color: #f9fbfa;
+  background-image: linear-gradient(90deg, rgba(255,255,255,.45), rgba(255,255,255,0) 46%), url("/images/ipo-calendar-hero.png");
+  background-position: center, center;
+  background-size: cover, cover;
+  background-repeat: no-repeat;
+}
+
+.hero .content { position: relative; height: 100%; }
+.breadcrumbs { position: absolute; top: 19px; left: 0; display: flex; align-items: center; gap: 11px; color: #6a756f; font-size: 9px; font-weight: 550; }
+.breadcrumbs a:hover { color: var(--ipo-green); }
+.breadcrumbs span:nth-child(even) { color: #a3aba7; font-size: 13px; }
+.heroCopy { position: absolute; top: 60px; left: 0; z-index: 1; }
+.eyebrow { display: inline-flex; min-height: 18px; padding: 3px 8px; align-items: center; border-radius: 999px; color: #00784f; background: #dff4e9; font-size: 9px; font-weight: 800; letter-spacing: .07em; }
+.heroCopy h1 { margin-top: 8px; font-family: var(--font-serif), Georgia, serif; font-size: clamp(44px, 3.9vw, 58px); line-height: .96; font-weight: 600; letter-spacing: -.045em; }
+.heroCopy p { max-width: 420px; margin-top: 10px; color: #35403b; font-size: 11px; line-height: 1.6; font-weight: 520; }
+.updatedBadge { position: absolute; right: 0; bottom: 14px; min-height: 28px; padding: 0 14px; display: flex; align-items: center; gap: 9px; border: 1px solid rgba(213,225,218,.92); border-radius: 999px; background: rgba(255,255,255,.92); box-shadow: 0 8px 24px rgba(16,65,47,.08); color: #303b36; font-size: 9px; font-weight: 700; backdrop-filter: blur(14px); }
+.updatedBadge i { width: 7px; height: 7px; border-radius: 50%; background: #06b979; box-shadow: 0 0 0 4px rgba(6,185,121,.11); }
+
+.ipoDataHub {
+  width: 100%;
+  position: relative;
+  isolation: isolate;
+  margin: 24px auto 30px;
+  padding: 36px 40px 40px;
+  overflow: hidden;
+  border: 1px solid #dfe8e3;
+  border-radius: 15px;
+  background: linear-gradient(160deg, #fff 0%, #fff 55%, #fbfdfc 100%);
+  box-shadow: 0 18px 45px rgba(25, 61, 48, .075);
+}
+
+.ipoDataHub::before {
+  position: absolute;
+  z-index: -1;
+  top: 43px;
+  right: -70px;
+  width: 69%;
+  height: 210px;
+  opacity: .52;
+  background:
+    repeating-radial-gradient(ellipse at 73% 74%, transparent 0 14px, rgba(83, 183, 127, .21) 15px 16px, transparent 17px 28px),
+    linear-gradient(145deg, transparent 22%, rgba(211, 238, 221, .82) 58%, transparent 83%);
+  mask-image: linear-gradient(90deg, transparent, #000 22%, #000 82%, transparent);
+  content: "";
+  transform: rotate(-3deg);
+}
+
+.ipoDataHubHeader { min-height: 165px; position: relative; display: flex; align-items: flex-start; }
+.ipoDataHubIntro { position: relative; z-index: 2; display: grid; justify-items: start; }
+.ipoDataHubIntro > span { min-height: 23px; padding: 4px 12px; display: inline-flex; align-items: center; border-radius: 999px; background: #e2f3e8; color: #075f3f; font-size: 10px; font-weight: 780; letter-spacing: .045em; }
+.ipoDataHubIntro h2 { max-width: 670px; margin-top: 17px; color: #071710; font-size: clamp(31px, 2.7vw, 42px); line-height: 1.13; font-weight: 760; letter-spacing: -.047em; text-wrap: balance; }
+.ipoDataHubIntro > a { min-height: 28px; margin-top: 17px; display: inline-flex; align-items: center; gap: 11px; color: #00784e; font-size: 12px; font-weight: 680; }
+.ipoDataHubIntro > a span { font-size: 17px; line-height: 1; transition: transform .18s ease; }
+.ipoDataHubIntro > a:hover span { transform: translate(2px, -2px); }
+
+.hubIllustration { width: 330px; height: auto; position: absolute; z-index: 1; top: -20px; right: 4px; overflow: visible; filter: drop-shadow(0 12px 18px rgba(22, 72, 51, .08)); }
+.hubIllustration g > rect:first-child { stroke: #dfe8e3; stroke-width: 1; }
+.hubReportCard { transform: translate(2px, 2px); }
+.hubDonutCard { filter: drop-shadow(0 8px 13px rgba(17, 68, 46, .09)); }
+
+.ipoDataCardGrid { position: relative; z-index: 2; margin-top: 13px; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.ipoDataCard { min-width: 0; min-height: 224px; overflow: hidden; border: 1px solid #dce6e0; border-radius: 12px; background: rgba(255,255,255,.96); box-shadow: 0 8px 20px rgba(21, 62, 45, .045); }
+.ipoDataCard > header { min-height: 82px; padding: 16px 13px 13px; display: grid; grid-template-columns: 42px minmax(0, 1fr) 23px; align-items: start; gap: 10px; border-bottom: 1px solid #edf2ef; }
+.ipoDataCardIcon { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 9px; background: linear-gradient(145deg, #0ba970, #008553); box-shadow: 0 7px 14px rgba(0, 139, 87, .16); color: #fff; }
+.ipoDataCardIcon svg,
+.ipoWorkflowIcon svg,
+.ipoWorkflowStepIcon svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.65; stroke-linecap: round; stroke-linejoin: round; }
+.ipoDataCard header > div { min-width: 0; padding-top: 3px; display: grid; gap: 6px; }
+.ipoDataCard h3 { overflow: hidden; color: #123024; font-size: 12px; line-height: 1.15; font-weight: 740; text-overflow: ellipsis; white-space: nowrap; }
+.ipoDataCard header p { color: #66746d; font-size: 8.5px; line-height: 1.28; }
+.ipoDataCard header > a,
+.ipoWorkflow header > a { width: 23px; height: 23px; display: grid; place-items: center; border: 1px solid #d7e9df; border-radius: 50%; background: #f0faf4; color: #006c45; font-size: 13px; font-weight: 760; transition: border-color .18s ease, background-color .18s ease, transform .18s ease; }
+.ipoDataCard header > a:hover,
+.ipoWorkflow header > a:hover { border-color: #9fceb5; background: #e5f6ec; transform: translateY(-1px); }
+.ipoDataCard ol { padding: 7px 13px 10px; list-style: none; }
+.ipoDataCard li { min-height: 45px; display: grid; grid-template-columns: 15px minmax(0, 1fr) auto; align-items: center; gap: 7px; border-bottom: 1px solid #eef2f0; }
+.ipoDataCard li:last-child { border-bottom: 0; }
+.ipoDataRowNumber { color: #1b2a23; font-size: 10px; font-weight: 680; }
+.ipoDataRowCopy { min-width: 0; display: grid; gap: 4px; }
+.ipoDataRowCopy strong { overflow: hidden; color: #17251f; font-size: 10.5px; line-height: 1.2; font-weight: 680; text-overflow: ellipsis; white-space: nowrap; }
+.ipoDataRowCopy small { overflow: hidden; color: #748079; font-size: 8.5px; line-height: 1.2; text-overflow: ellipsis; white-space: nowrap; }
+.ipoDataRowEnd { display: grid; justify-items: end; gap: 4px; }
+.ipoDataRowEnd em { color: #18251f; font-size: 10px; font-style: normal; font-weight: 710; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.ipoDataRowEnd em[data-tone="tag"],
+.ipoDataRowEnd small { min-width: 47px; min-height: 21px; padding-inline: 7px; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; background: #ebf7ef; color: #087249; font-size: 8px; font-style: normal; font-weight: 770; text-transform: uppercase; white-space: nowrap; }
+
+.ipoWorkflow { position: relative; z-index: 2; margin-top: 22px; overflow: hidden; border: 1px solid #dce6e0; border-radius: 12px; background: rgba(255,255,255,.97); box-shadow: 0 8px 20px rgba(21, 62, 45, .035); }
+.ipoWorkflow > header { min-height: 74px; padding: 0 17px; display: grid; grid-template-columns: 42px minmax(0, 1fr) 32px; align-items: center; gap: 13px; border-bottom: 1px solid #edf2ef; }
+.ipoWorkflowIcon { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 10px; background: #eaf7ef; color: #075f3f; }
+.ipoWorkflow header > div { display: grid; gap: 4px; }
+.ipoWorkflow h3 { color: #17251f; font-size: 17px; line-height: 1.1; font-weight: 730; }
+.ipoWorkflow header p { color: #66746d; font-size: 11px; }
+.ipoWorkflow header > a { justify-self: end; width: 32px; height: 32px; font-size: 16px; }
+.ipoWorkflow ol { min-height: 96px; padding: 8px 10px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); list-style: none; }
+.ipoWorkflow li { min-width: 0; min-height: 80px; position: relative; padding: 10px 17px; display: grid; grid-template-columns: 69px minmax(0, 1fr) 40px; align-items: center; gap: 14px; }
+.ipoWorkflow li:not(:last-child)::after { width: 66px; height: 1px; position: absolute; z-index: 0; top: 50%; right: -32px; background: #b7cbc0; content: ""; }
+.ipoWorkflow li:not(:last-child)::before { width: 7px; height: 7px; position: absolute; z-index: 1; top: calc(50% - 3px); right: -3px; border: 1.5px solid #fff; border-radius: 50%; background: #fff; box-shadow: 0 0 0 1.5px #138159; content: ""; }
+.ipoWorkflowNumber { width: 69px; height: 67px; display: grid; place-items: center; border: 1px solid #cfe7d8; border-radius: 10px; background: linear-gradient(145deg, #f0faf4, #e7f5ec); color: #006942; font-family: var(--font-serif), Georgia, serif; font-size: 25px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.ipoWorkflowCopy { min-width: 0; display: grid; gap: 7px; }
+.ipoWorkflowCopy strong { color: #18251f; font-size: 12px; font-weight: 710; }
+.ipoWorkflowCopy small { color: #748079; font-size: 10px; }
+.ipoWorkflowStepIcon { width: 40px; height: 40px; position: relative; z-index: 2; display: grid; place-items: center; border-radius: 8px; background: #eaf7ef; color: #075f3f; }
+
+.workspace { background: linear-gradient(180deg, #fff 0%, #fff 62%, #f9fbfa 100%); }
+.tabs { height: 44px; display: flex; align-items: stretch; gap: 46px; border-bottom: 1px solid #edf1ef; }
+.tabs button { position: relative; min-width: 72px; padding: 0 1px; color: #59635e; font-size: 10px; font-weight: 580; }
+.tabs button::after { position: absolute; right: 0; bottom: -1px; left: 0; height: 2px; border-radius: 2px; background: var(--ipo-green); content: ""; opacity: 0; }
+.tabs button[aria-pressed="true"] { color: #122019; font-weight: 750; }
+.tabs button[aria-pressed="true"]::after { opacity: 1; }
+
+.toolbar { min-height: 59px; display: flex; align-items: center; justify-content: space-between; gap: 22px; }
+.filters { display: flex; align-items: center; gap: 9px; }
+.filters button,
+.trackedButton { min-height: 31px; padding: 0 12px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; border: 1px solid #dfe6e2; border-radius: 8px; background: #fff; box-shadow: 0 3px 10px rgba(25,61,48,.035); color: #28342f; font-size: 9px; font-weight: 620; white-space: nowrap; transition: border-color .18s ease, background-color .18s ease, color .18s ease, transform .18s ease; }
+.filters button svg,
+.trackedButton svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.filters button:hover,
+.trackedButton:hover { transform: translateY(-1px); border-color: #a9c9ba; }
+.filters button[aria-pressed="true"] { border-color: var(--ipo-green); background: linear-gradient(135deg, #087553, #00583b); box-shadow: 0 7px 16px rgba(0,91,61,.15); color: #fff; }
+.toolbarRight { display: flex; align-items: center; gap: 10px; }
+.search { width: 194px; min-height: 31px; padding: 0 12px; display: flex; align-items: center; gap: 8px; border: 1px solid #dfe6e2; border-radius: 7px; background: #fff; }
+.search svg { width: 14px; flex: 0 0 auto; fill: none; stroke: #748078; stroke-width: 1.6; stroke-linecap: round; }
+.search input { width: 100%; min-width: 0; border: 0; outline: 0; color: var(--ipo-ink); background: transparent; font: 9px var(--font-sans); }
+.search input::placeholder { color: #8b9690; }
+.trackedButton { padding-inline: 12px 10px; }
+.trackedButton > span { width: 18px; height: 18px; display: grid; place-items: center; border-radius: 50%; color: #08764f; background: #e6f5ec; font-size: 9px; }
+
+.metrics { height: 98px; display: grid; grid-template-columns: repeat(4, 1fr); overflow: hidden; border: 1px solid var(--ipo-line); border-radius: 9px; background: rgba(255,255,255,.98); box-shadow: 0 7px 24px rgba(29,64,51,.035); }
+.metrics article { position: relative; min-width: 0; padding: 14px 16px 14px 12px; display: flex; align-items: center; gap: 15px; }
+.metrics article:not(:last-child)::after { position: absolute; top: 13px; right: 0; bottom: 13px; width: 1px; background: var(--ipo-line); content: ""; }
+.metricIcon { width: 42px; height: 42px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 50%; color: #057450; background: #eaf5eb; }
+.metricIcon[data-tone="sand"] { color: #3c715d; background: #fbf4d9; }
+.metricIcon svg { width: 23px; height: 23px; fill: none; stroke: currentColor; stroke-width: 1.65; stroke-linecap: round; stroke-linejoin: round; }
+.metrics article > div { min-width: 0; display: grid; align-content: center; }
+.metrics span { color: #303b36; font-size: 9px; font-weight: 600; }
+.metrics strong { margin-top: 3px; color: #006444; font-size: 17px; line-height: 1.1; font-weight: 750; letter-spacing: -.025em; font-variant-numeric: tabular-nums; }
+.metrics small { margin-top: 7px; overflow: hidden; color: #66736c; font-size: 8px; font-weight: 520; text-overflow: ellipsis; white-space: nowrap; }
+
+.calendarBoard { margin-top: 16px; overflow: hidden; border: 1px solid #dfe7e2; border-radius: 8px; background: #fff; box-shadow: 0 8px 24px rgba(29,64,51,.04); }
+.calendarBoard > header { position: relative; min-height: 58px; padding: 0 15px; display: flex; align-items: center; justify-content: space-between; overflow: hidden; color: #fff; background: linear-gradient(115deg, #006846, #004b36); }
+.calendarBoard > header::after { position: absolute; inset: 0 0 0 42%; opacity: .15; background: repeating-radial-gradient(ellipse at 60% 75%, transparent 0 18px, #a5dcc6 19px 20px, transparent 21px 31px); content: ""; transform: rotate(-4deg); }
+.calendarBoard h2 { position: relative; z-index: 1; font-size: 15px; line-height: 1.1; font-weight: 720; }
+.calendarBoard header p { position: relative; z-index: 1; margin-top: 3px; color: rgba(255,255,255,.8); font-size: 8px; }
+.calendarBoard header button { position: relative; z-index: 1; min-width: 106px; min-height: 31px; padding: 0 12px; display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(255,255,255,.45); border-radius: 7px; color: #fff; font-size: 9px; }
+.calendarLabels { min-height: 31px; padding-inline: 30px; display: grid; grid-template-columns: 21% 29% 30% 20%; align-items: center; color: #5f6964; background: linear-gradient(180deg,#fafbfa,#f3f5f4); font-size: 8px; letter-spacing: .025em; }
+.calendarBoard ol { list-style: none; }
+.calendarBoard li { position: relative; min-height: 66px; padding-inline: 30px; display: grid; grid-template-columns: 9% 4% 7% 30% 30% 20%; align-items: center; border-top: 1px solid #e6ebe8; }
+.calendarBoard time { display: grid; justify-items: center; align-content: center; color: #5f6964; font-style: normal; line-height: 1; }
+.calendarBoard time span { font-size: 8px; font-weight: 700; }
+.calendarBoard time strong { margin-block: 3px 1px; color: #0a5c40; font-size: 20px; font-weight: 720; }
+.calendarBoard time em { color: #08714f; font-size: 8px; font-style: normal; font-weight: 720; }
+.timeline { position: relative; align-self: stretch; display: grid; place-items: center; }
+.timeline::before { position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; background: #e0e6e3; content: ""; }
+.timeline i { position: relative; z-index: 1; width: 8px; height: 8px; border-radius: 50%; background: #aeb4b1; }
+.timeline i[data-state="open"] { background: #00a56d; }
+.eventIcon { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 8px; color: #08724f; background: #eaf5ec; }
+.eventIcon svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.eventName,
+.review { min-width: 0; display: grid; gap: 4px; }
+.eventName strong,
+.review strong { overflow: hidden; color: #16201b; font-size: 12px; font-weight: 720; text-overflow: ellipsis; white-space: nowrap; }
+.eventName span { overflow: hidden; color: #00734d; font-size: 9px; font-weight: 650; text-overflow: ellipsis; white-space: nowrap; }
+.review strong { color: #39443e; font-size: 9px; font-weight: 520; }
+.review span { color: #738078; font-size: 8px; }
+.state { width: fit-content; min-width: 64px; min-height: 25px; padding: 0 10px; display: inline-flex; align-items: center; justify-content: center; justify-self: start; gap: 7px; border: 1px solid #cee4d7; border-radius: 7px; color: #08734f; background: #e8f6ed; font-size: 9px; font-style: normal; font-weight: 650; }
+.state::before { width: 8px; height: 8px; border: 1.5px solid currentColor; border-radius: 50%; content: ""; }
+.state[data-state="Upcoming"] { border-color: #dfe3e1; color: #5f6864; background: #f5f6f5; }
+
+.screener { margin-top: 64px; padding-bottom: 32px; }
+.sectionHeading span { color: var(--ipo-green-2); font-size: 10px; font-weight: 800; letter-spacing: .09em; }
+.sectionHeading h2 { margin-top: 5px; font-family: var(--font-serif), Georgia, serif; font-size: 34px; letter-spacing: -.03em; }
+.sectionHeading p { margin-top: 5px; color: var(--ipo-muted); font-size: 12px; }
+.tableScroller { margin-top: 20px; overflow-x: auto; border: 1px solid var(--ipo-line); border-radius: 10px; background: #fff; }
+.tableScroller table { width: 100%; min-width: 820px; border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums; }
+.tableScroller th { height: 48px; padding: 0 16px; border-bottom: 1px solid var(--ipo-line); color: #66716d; background: #f7f9f8; font-size: 10px; font-weight: 700; text-align: left; }
+.tableScroller td { height: 68px; padding: 0 16px; border-bottom: 1px solid #edf1ef; color: #26312c; }
+.tableScroller tr:last-child td { border-bottom: 0; }
+.tableScroller td:first-child a { display: flex; align-items: center; gap: 11px; }
+.tableScroller td:first-child span { display: grid; gap: 3px; }
+.tableScroller td small { display: block; margin-top: 3px; color: #7b8580; font-size: 9px; }
+.tableScroller td > em { padding: 5px 8px; border-radius: 6px; color: #08724f; background: #eaf5ee; font-size: 9px; font-style: normal; text-transform: capitalize; }
+.tableScroller td[data-positive="true"] { color: #008a5c; }
+.tableScroller td[data-positive="false"] { color: #c33b50; }
+.empty { padding: 28px; color: var(--ipo-muted); font-size: 12px; text-align: center; }
+.source { padding: 0 0 38px; color: #7b8580; font-size: 10px; }
+.srOnly { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+.tabs button:focus-visible,
+.filters button:focus-visible,
+.search:focus-within,
+.trackedButton:focus-visible,
+.calendarBoard button:focus-visible { outline: 3px solid rgba(0,105,70,.2); outline-offset: 2px; }
+
+.ipoDataHub a:focus-visible { outline: 3px solid rgba(0,105,70,.2); outline-offset: 3px; }
+
+@media (min-width: 1280px) {
+  .heroCopy p { font-size: 13px; }
+  .breadcrumbs { font-size: 11px; }
+  .tabs button,
+  .filters button,
+  .trackedButton,
+  .search input { font-size: 11px; }
+  .metrics span { font-size: 11px; }
+  .metrics strong { font-size: 21px; }
+  .metrics small { font-size: 10px; }
+  .calendarBoard h2 { font-size: 18px; }
+  .calendarBoard header p,
+  .calendarLabels,
+  .calendarBoard time span,
+  .calendarBoard time em,
+  .review span { font-size: 10px; }
+  .eventName strong { font-size: 14px; }
+  .eventName span,
+  .review strong,
+  .state { font-size: 11px; }
+}
+
+@media (max-width: 820px) {
+  .content { width: calc(100% - 32px); }
+  .hero { height: 360px; background-image: linear-gradient(180deg, rgba(255,255,255,.05), #fff 72%), url("/images/ipo-calendar-hero.png"); background-position: center, 64% bottom; background-size: cover, auto 68%; }
+  .breadcrumbs { top: 18px; }
+  .heroCopy { top: 58px; }
+  .heroCopy h1 { font-size: clamp(44px, 13vw, 58px); }
+  .heroCopy p { max-width: 340px; font-size: 14px; line-height: 1.55; }
+  .desktopBreak { display: none; }
+  .updatedBadge { right: auto; bottom: 18px; left: 0; min-height: 36px; font-size: 11px; }
+  .ipoDataHub { width: 100%; margin-block: 18px 24px; padding: 28px 24px 26px; }
+  .ipoDataHubHeader { min-height: 260px; }
+  .ipoDataHubIntro h2 { max-width: 580px; font-size: clamp(31px, 5.6vw, 42px); }
+  .ipoDataHubIntro > a { font-size: 13px; }
+  .hubIllustration { width: 295px; top: 92px; right: -16px; opacity: .9; }
+  .ipoDataCardGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .ipoDataCard { min-height: 224px; }
+  .ipoDataCard:last-child { grid-column: 1 / -1; }
+  .ipoDataCard h3 { font-size: 13px; }
+  .ipoDataCard header p { font-size: 10px; }
+  .ipoDataRowCopy strong { font-size: 12px; }
+  .ipoDataRowCopy small,
+  .ipoDataRowEnd em { font-size: 10px; }
+  .ipoWorkflow li { padding-inline: 10px; grid-template-columns: 53px minmax(0, 1fr) 34px; gap: 10px; }
+  .ipoWorkflowNumber { width: 53px; height: 58px; font-size: 21px; }
+  .ipoWorkflowCopy strong { font-size: 11px; }
+  .ipoWorkflowCopy small { font-size: 9px; }
+  .ipoWorkflowStepIcon { width: 34px; height: 34px; }
+  .ipoWorkflowStepIcon svg { width: 19px; height: 19px; }
+  .tabs { gap: 30px; overflow-x: auto; }
+  .tabs button { min-width: max-content; font-size: 13px; }
+  .toolbar { padding-block: 16px; align-items: stretch; flex-direction: column; }
+  .filters { overflow-x: auto; padding-bottom: 3px; }
+  .filters button,
+  .trackedButton { min-height: 40px; font-size: 12px; }
+  .toolbarRight { width: 100%; }
+  .search { width: auto; min-height: 42px; flex: 1; }
+  .search input { font-size: 12px; }
+  .trackedButton { flex: 0 0 auto; }
+  .metrics { height: auto; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .metrics article { min-height: 118px; padding: 16px; align-items: flex-start; flex-direction: column; gap: 10px; }
+  .metrics article::after { display: none; }
+  .metrics article:nth-child(odd) { border-right: 1px solid var(--ipo-line); }
+  .metrics article:nth-child(-n+2) { border-bottom: 1px solid var(--ipo-line); }
+  .metricIcon { width: 44px; height: 44px; }
+  .metrics span { font-size: 11px; }
+  .metrics strong { font-size: 20px; }
+  .metrics small { font-size: 10px; white-space: normal; }
+  .calendarBoard { margin-top: 18px; }
+  .calendarBoard > header { min-height: 72px; padding: 0 14px; }
+  .calendarBoard h2 { font-size: 18px; }
+  .calendarBoard header p { font-size: 10px; }
+  .calendarBoard header button { min-width: 102px; min-height: 38px; font-size: 11px; }
+  .calendarLabels { display: none; }
+  .calendarBoard ol { display: grid; }
+  .calendarBoard li { min-height: 134px; padding: 14px; grid-template-columns: 48px 40px minmax(0, 1fr) auto; grid-template-rows: auto auto; gap: 10px 12px; }
+  .calendarBoard time { grid-row: 1 / 3; }
+  .timeline { display: none; }
+  .eventIcon { width: 40px; height: 40px; }
+  .eventName { grid-column: 3 / 5; }
+  .eventName strong { font-size: 14px; }
+  .eventName span { font-size: 11px; }
+  .review { grid-column: 2 / 4; padding-left: 0; }
+  .review strong { font-size: 11px; }
+  .review span { font-size: 10px; }
+  .state { grid-column: 4; min-width: 72px; font-size: 10px; }
+  .screener { margin-top: 48px; }
+  .sectionHeading h2 { font-size: 32px; }
+  .sectionHeading p { font-size: 13px; }
+  .tableScroller { margin-right: -16px; border-radius: 10px 0 0 10px; }
+}
+
+@media (max-width: 430px) {
+  .content { width: calc(100% - 24px); }
+  .hero { height: 380px; }
+  .heroCopy p { max-width: 300px; }
+  .ipoDataHub { width: 100%; margin-block: 14px 20px; padding: 22px 14px 18px; border-radius: 13px; }
+  .ipoDataHub::before { top: 140px; right: -90px; width: 130%; height: 190px; }
+  .ipoDataHubHeader { min-height: 303px; }
+  .ipoDataHubIntro > span { font-size: 9px; }
+  .ipoDataHubIntro h2 { margin-top: 14px; font-size: 31px; line-height: 1.08; }
+  .ipoDataHubIntro h2 br { display: none; }
+  .ipoDataHubIntro > a { margin-top: 14px; font-size: 12px; }
+  .hubIllustration { width: 270px; top: 145px; right: -13px; }
+  .ipoDataCardGrid { margin-top: 8px; grid-template-columns: 1fr; }
+  .ipoDataCard:last-child { grid-column: auto; }
+  .ipoDataCard { min-height: 220px; }
+  .ipoDataCard > header { min-height: 84px; grid-template-columns: 44px minmax(0, 1fr) 28px; }
+  .ipoDataCardIcon { width: 44px; height: 44px; }
+  .ipoDataCard h3 { font-size: 14px; }
+  .ipoDataCard header p { font-size: 11px; }
+  .ipoDataCard li { min-height: 46px; }
+  .ipoDataRowNumber { font-size: 11px; }
+  .ipoDataRowCopy strong { font-size: 13px; }
+  .ipoDataRowCopy small,
+  .ipoDataRowEnd em { font-size: 11px; }
+  .ipoDataRowEnd em[data-tone="tag"],
+  .ipoDataRowEnd small { min-height: 23px; font-size: 9px; }
+  .ipoWorkflow { margin-top: 16px; }
+  .ipoWorkflow > header { min-height: 76px; padding-inline: 13px; grid-template-columns: 42px minmax(0, 1fr) 30px; }
+  .ipoWorkflow h3 { font-size: 16px; }
+  .ipoWorkflow header p { font-size: 10px; }
+  .ipoWorkflow ol { padding: 7px 12px 12px; grid-template-columns: 1fr; }
+  .ipoWorkflow li { min-height: 86px; padding: 9px 0; grid-template-columns: 58px minmax(0, 1fr) 38px; gap: 13px; }
+  .ipoWorkflow li:not(:last-child)::after { width: 1px; height: 28px; top: auto; right: auto; bottom: -14px; left: 29px; }
+  .ipoWorkflow li:not(:last-child)::before { top: auto; right: auto; bottom: -3px; left: 26px; }
+  .ipoWorkflowNumber { width: 58px; height: 58px; }
+  .ipoWorkflowCopy strong { font-size: 13px; }
+  .ipoWorkflowCopy small { font-size: 11px; }
+  .ipoWorkflowStepIcon { width: 38px; height: 38px; }
+  .toolbarRight { align-items: stretch; flex-direction: column; }
+  .trackedButton { width: 100%; }
+  .metricIcon { width: 40px; height: 40px; }
+  .metrics article { min-height: 128px; }
+  .calendarBoard li { grid-template-columns: 42px 38px minmax(0, 1fr); min-height: 152px; }
+  .eventName { grid-column: 3; }
+  .review { grid-column: 2 / 4; }
+  .state { grid-column: 2 / 4; justify-self: start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .filters button,
+  .trackedButton,
+  .ipoDataHub a,
+  .ipoDataHubIntro > a span { transition: none; }
+}

@@ -38,12 +38,12 @@ function chartPoints(series, width = 178, height = 118) {
 function BrandMark() {
   return (
     <svg className={s.brandMark} viewBox="0 0 34 32" aria-hidden="true">
-      <defs><linearGradient id="market-brand" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#6a08e8" /><stop offset="1" stopColor="#d51cff" /></linearGradient></defs>
+      <defs><linearGradient id="market-brand" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#006b3c" /><stop offset="1" stopColor="#00a76f" /></linearGradient></defs>
       <rect x="2" y="15" width="3" height="13" rx="1.5" fill="url(#market-brand)" />
       <rect x="8" y="9" width="3" height="19" rx="1.5" fill="url(#market-brand)" />
       <rect x="14" y="3" width="3" height="25" rx="1.5" fill="url(#market-brand)" />
       <rect x="20" y="11" width="3" height="17" rx="1.5" fill="url(#market-brand)" />
-      <path d="M1 20 8 16l6 3 8-11 9 3" fill="none" stroke="#9a13f2" strokeWidth="1.6" />
+      <path d="M1 20 8 16l6 3 8-11 9 3" fill="none" stroke="#007a55" strokeWidth="1.6" />
     </svg>
   );
 }
@@ -207,7 +207,7 @@ function MarketPulse({ chart, quote, range, symbol, onRangeChange, onSymbolChang
 }
 
 function CompanyIcon({ index, loser, name }) {
-  const colors = loser ? ["#715cf6", "#652bf0", "#d81965", "#5521ba", "#d69649"] : ["#7752f4", "#1f7cf2", "#df4255", "#398af5", "#eb3160"];
+  const colors = loser ? ["#007a55", "#006b3c", "#d81965", "#005c3f", "#d69649"] : ["#00875f", "#00a76f", "#df4255", "#0a8f68", "#eb3160"];
   const marks = { RELIANCE: "R", "TATA MOTORS": "T", HDFCBANK: "H", INFY: "I", ICICIBANK: "I", ADANIENT: "A", WIPRO: "W", JSWSTEEL: "J", BPCL: "B", TITAN: "T" };
   return <span className={s.companyIcon} style={{ "--company-color": colors[index] }}>{marks[name]}</span>;
 }
@@ -265,7 +265,7 @@ function EditorialPanel() {
       <i className={s.titleRule} aria-hidden="true" />
       <p className={s.editorialCopy}>Real-time intelligence that<br />{" "}surfaces high-probability<br />{" "}opportunities before<br />{" "}everyone else.</p>
       <div className={s.radarWedge}>
-        <Image src="/images/market-intelligence-radar.png" alt="" fill sizes="(min-width: 1920px) 565px, 30vw" className={s.radarImage} />
+        <Image src="/images/market-intelligence-radar-green.png" alt="" fill sizes="(min-width: 1920px) 565px, 30vw" className={s.radarImage} />
         <div className={s.radarShade} />
         <p><strong>{"MARKETS DON'T WAIT."}</strong><span>Neither should you.</span></p>
       </div>

@@ -1,0 +1,282 @@
+.marketStories {
+  --stories-green: #00765a;
+  --stories-ink: #101725;
+  --stories-muted: #667085;
+  --stories-line: #e2e8e5;
+  margin: 64px 0 76px;
+  padding: 24px 20px 20px;
+  border: 1px solid #edf1ef;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 12px 32px rgba(24, 57, 44, .055);
+  color: var(--stories-ink);
+}
+
+.header {
+  min-height: 84px;
+  padding: 4px 8px 22px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.heading {
+  display: grid;
+  grid-template-columns: 6px minmax(0, 1fr);
+  align-items: start;
+  gap: 24px;
+}
+
+.heading > i {
+  width: 6px;
+  height: 34px;
+  display: block;
+  border-radius: 999px;
+  background: var(--stories-green);
+}
+
+.heading h2 {
+  font-size: clamp(22px, 1.55vw, 27px);
+  line-height: 1.08;
+  font-weight: 740;
+  letter-spacing: -.025em;
+}
+
+.heading p {
+  margin-top: 9px;
+  color: var(--stories-muted);
+  font-size: clamp(12px, .83vw, 14px);
+  line-height: 1.5;
+}
+
+.header > a {
+  margin-top: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--stories-green);
+  font-size: 13px;
+  font-weight: 730;
+  white-space: nowrap;
+}
+
+.header > a span,
+.readLink span { font-size: 17px; }
+
+.storyList {
+  overflow: hidden;
+  border: 1px solid var(--stories-line);
+  border-radius: 12px;
+  background: #fff;
+  list-style: none;
+}
+
+.storyList li {
+  min-height: 88px;
+  margin-inline: 22px;
+  display: grid;
+  grid-template-columns: 34px 48px minmax(0, 1fr) 170px 70px;
+  align-items: center;
+  gap: 18px;
+  border-bottom: 1px solid var(--stories-line);
+}
+
+.storyList li:last-child { border-bottom: 0; }
+
+.number {
+  color: #7d899d;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.storyIcon {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #e5f7f0;
+  color: #008064;
+}
+
+.storyIcon svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.storyCopy {
+  min-width: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.storyCopy small {
+  color: #008064;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .015em;
+  text-transform: uppercase;
+}
+
+.storyCopy h3 {
+  font-size: clamp(14px, 1vw, 16px);
+  line-height: 1.28;
+  font-weight: 680;
+  letter-spacing: -.012em;
+}
+
+.storyDesk {
+  color: #69758a;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 700;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.readLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  color: #008064;
+  font-size: 12px;
+  font-weight: 740;
+  white-space: nowrap;
+}
+
+.storyList li[data-tone="orange"] .storyIcon { background: #fff0e7; color: #f26a35; }
+.storyList li[data-tone="orange"] .storyCopy small,
+.storyList li[data-tone="orange"] .readLink { color: #e85c28; }
+.storyList li[data-tone="red"] .storyIcon { background: #fde4ec; color: #ec2464; }
+.storyList li[data-tone="red"] .storyCopy small,
+.storyList li[data-tone="red"] .readLink { color: #df1658; }
+.storyList li[data-tone="teal"] .storyIcon { background: #e1f5f5; color: #009a9f; }
+.storyList li[data-tone="teal"] .storyCopy small,
+.storyList li[data-tone="teal"] .readLink { color: #008f95; }
+.storyList li[data-tone="blue"] .storyIcon { background: #e6edff; color: #3159cc; }
+.storyList li[data-tone="blue"] .storyCopy small,
+.storyList li[data-tone="blue"] .readLink { color: #3159cc; }
+
+.subscribe {
+  min-height: 84px;
+  margin-top: 24px;
+  padding: 14px 22px;
+  display: grid;
+  grid-template-columns: 44px minmax(260px, 1fr) minmax(380px, 500px);
+  align-items: center;
+  gap: 18px;
+  overflow: hidden;
+  border: 1px solid #edf2ef;
+  border-radius: 11px;
+  background:
+    radial-gradient(ellipse at 91% 115%, rgba(85, 215, 171, .13), transparent 40%),
+    linear-gradient(90deg, #fbfefd, #f9fdfb);
+}
+
+.mailIcon {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--stories-green);
+  color: #fff;
+  box-shadow: 0 7px 18px rgba(0, 118, 90, .16);
+}
+
+.mailIcon svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.subscribe > div { display: grid; gap: 5px; }
+.subscribe h3 { font-size: 14px; font-weight: 720; }
+.subscribe p { color: var(--stories-muted); font-size: 12px; line-height: 1.45; }
+
+.subscribe form {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 128px;
+  gap: 12px;
+}
+
+.subscribe input,
+.subscribe button {
+  height: 42px;
+  border-radius: 6px;
+  font: inherit;
+  font-size: 12px;
+}
+
+.subscribe input {
+  min-width: 0;
+  padding: 0 14px;
+  border: 1px solid #dfe7e3;
+  background: rgba(255,255,255,.94);
+  color: var(--stories-ink);
+  outline: 0;
+}
+
+.subscribe input::placeholder { color: #8a94a3; }
+.subscribe button { background: var(--stories-green); color: #fff; font-weight: 730; }
+
+.header a:focus-visible,
+.readLink:focus-visible,
+.subscribe input:focus-visible,
+.subscribe button:focus-visible {
+  outline: 3px solid rgba(0, 118, 90, .2);
+  outline-offset: 3px;
+}
+
+@media (max-width: 900px) {
+  .marketStories { padding-inline: 16px; }
+  .storyList li { margin-inline: 16px; grid-template-columns: 30px 46px minmax(0, 1fr) 112px 58px; gap: 13px; }
+  .storyDesk { font-size: 9px; }
+  .subscribe { grid-template-columns: 44px 1fr; }
+  .subscribe form { grid-column: 1 / 3; }
+}
+
+@media (max-width: 700px) {
+  .marketStories { margin: 48px 0 58px; padding: 18px 12px 12px; border-radius: 12px; }
+  .header { min-height: 130px; padding: 3px 4px 20px; align-items: flex-start; flex-direction: column; gap: 20px; }
+  .heading { grid-template-columns: 5px minmax(0, 1fr); gap: 16px; }
+  .heading > i { width: 5px; height: 31px; }
+  .heading h2 { font-size: 24px; }
+  .heading p { font-size: 13px; }
+  .header > a { margin: 0 0 0 21px; font-size: 13px; }
+  .storyList li { min-height: 138px; margin-inline: 14px; padding: 16px 0; grid-template-columns: 28px 44px minmax(0, 1fr); align-items: start; gap: 5px 12px; }
+  .number { padding-top: 15px; }
+  .storyCopy { padding-top: 4px; gap: 6px; }
+  .storyCopy small { font-size: 10px; }
+  .storyCopy h3 { font-size: 15px; line-height: 1.4; }
+  .storyDesk { grid-column: 3; margin-top: 5px; font-size: 10px; text-align: left; }
+  .readLink { grid-column: 3; justify-content: flex-start; font-size: 12px; }
+  .subscribe { min-height: 0; padding: 18px; grid-template-columns: 42px 1fr; gap: 14px; }
+  .subscribe h3 { font-size: 15px; }
+  .subscribe p { font-size: 12px; }
+  .subscribe form { grid-column: 1 / 3; }
+}
+
+@media (max-width: 430px) {
+  .subscribe form { grid-template-columns: 1fr; }
+  .subscribe input,
+  .subscribe button { height: 46px; font-size: 13px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header a,
+  .readLink,
+  .subscribe button { scroll-behavior: auto; }
+}

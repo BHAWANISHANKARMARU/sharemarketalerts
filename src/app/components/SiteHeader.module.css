@@ -28,7 +28,7 @@
   white-space: nowrap;
 }
 
-.logo { width: 28px; height: 25px; }
+.logo { width: 28px; height: 25px; filter: sepia(1) saturate(3.2) hue-rotate(92deg) brightness(.56); }
 
 .search {
   width: clamp(160px, 18vw, 260px);
@@ -38,8 +38,8 @@
   align-items: center;
   gap: 9px;
   border-radius: 20px;
-  background: #f0f3fa;
-  color: #6a6d78;
+  background: #f1f6f3;
+  color: #607268;
   font-size: 13px;
 }
 
@@ -71,7 +71,7 @@
   left: 0;
   height: 2px;
   border-radius: 999px;
-  background: #2962ff;
+  background: #007a55;
   content: "";
   opacity: 0;
 }
@@ -88,7 +88,7 @@
 }
 
 .login { color: #343741; font-size: 13px; font-weight: 600; white-space: nowrap; }
-.cta { min-height: 40px; padding: 0 16px; display: inline-flex; align-items: center; gap: 9px; border-radius: 9px; background: linear-gradient(110deg,#1592e6,#7c3aed); box-shadow: 0 7px 18px rgba(41,98,255,.18); color: #fff; font-size: 13px; font-weight: 700; white-space: nowrap; }
+.cta { min-height: 40px; padding: 0 16px; display: inline-flex; align-items: center; gap: 9px; border-radius: 9px; background: linear-gradient(110deg, #007a55, #005f42); box-shadow: 0 7px 18px rgba(0, 107, 60, .18); color: #fff; font-size: 13px; font-weight: 700; white-space: nowrap; }
 .cta svg { width: 15px; }
 
 .menuButton,
@@ -100,7 +100,7 @@
 .login:focus-visible,
 .cta:focus-visible,
 .menuButton:focus-visible,
-.mobileNav a:focus-visible { outline: 3px solid rgba(41,98,255,.24); outline-offset: 3px; }
+.mobileNav a:focus-visible { outline: 3px solid rgba(0,122,85,.24); outline-offset: 3px; }
 
 @media (max-width: 1240px) {
   .inner { gap: 17px; }
@@ -125,7 +125,24 @@
   .mobileNav { position: absolute; top: calc(100% + 8px); right: 16px; left: 16px; padding: 10px; display: grid; border: 1px solid #e0e3eb; border-radius: 12px; background: #fff; box-shadow: 0 18px 55px rgba(19,23,34,.16); }
   .mobileNav a { min-height: 52px; padding-inline: 14px; display: flex; align-items: center; gap: 14px; border-radius: 8px; color: #131722; font-size: 16px; font-weight: 650; }
   .mobileNav a span { color: #9598a1; font-size: 11px; }
-  .mobileNav a[aria-current="page"] { background: #eef3ff; color: #1848c7; }
+  .mobileNav a[aria-current="page"] { background: #e8f6ef; color: #006b3c; }
+}
+
+.header[data-header-theme="ipo"] {
+  border-color: #dfe7e2;
+  background: rgba(255, 255, 255, .97);
+}
+
+.header[data-header-theme="ipo"] .inner { height: 52px; }
+.header[data-header-theme="ipo"] .logo { filter: sepia(1) saturate(3.2) hue-rotate(92deg) brightness(.56); }
+.header[data-header-theme="ipo"] .search { height: 34px; background: #f5f7f6; }
+.header[data-header-theme="ipo"] .desktopNav a::after { background: #00734d; }
+.header[data-header-theme="ipo"] .desktopNav a[aria-current="page"] { color: #006946; }
+.header[data-header-theme="ipo"] .cta { min-height: 34px; background: linear-gradient(120deg, #087553, #00583b); box-shadow: 0 7px 18px rgba(0, 91, 61, .18); }
+
+@media (max-width: 820px) {
+  .header[data-header-theme="ipo"] .inner { height: 60px; }
+  .header[data-header-theme="ipo"] .mobileNav a[aria-current="page"] { color: #006946; background: #e8f5ee; }
 }
 
 @media (prefers-reduced-motion: reduce) {
