@@ -5,7 +5,7 @@
   max-height: 1055.72px;
   overflow: hidden;
   background: var(--surface-white, #ffffff);
-  color: #0c271d;
+  color: #20251d;
   font-family: var(--font-sans), Arial, sans-serif;
 }
 
@@ -29,7 +29,7 @@
 }
 
 .eyebrow {
-  color: #14855a;
+  color: #657f2d;
   font-size: calc(11.4 * var(--mc-u));
   font-weight: 800;
   line-height: 1;
@@ -47,7 +47,7 @@
 }
 
 .titleAccent {
-  color: #178259;
+  color: #657f2d;
   font-family: var(--font-serif), Georgia, serif;
   font-style: italic;
   font-weight: 530;
@@ -85,7 +85,7 @@
   bottom: 0;
   width: calc(178 * var(--mc-u));
   height: calc(.8 * var(--mc-u));
-  background: #ecf8f4;
+  background: #f6f8f0;
 }
 
 .statIcon {
@@ -94,7 +94,7 @@
   display: grid;
   place-items: center;
   border-radius: 50%;
-  background: radial-gradient(circle, #fff 12%, #e8fdf5 72%, #e8fdf5 100%);
+  background: radial-gradient(circle, #fff 12%, #f3f6e9 72%, #f3f6e9 100%);
   box-shadow: 0 calc(5 * var(--mc-u)) calc(16 * var(--mc-u))
     rgba(30, 123, 87, .08);
 }
@@ -112,7 +112,7 @@
 }
 
 .statistic strong {
-  color: #0d261c;
+  color: #20251d;
   font-size: calc(19 * var(--mc-u));
   font-weight: 760;
   line-height: 1;
@@ -140,7 +140,7 @@
   width: 100%;
   height: 100%;
   fill: none;
-  stroke: #168359;
+  stroke: #657f2d;
   stroke-width: 1.8;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -201,7 +201,7 @@
 }
 
 .marketCardLink:focus-visible {
-  outline: 2px solid #14855a;
+  outline: 2px solid #657f2d;
   outline-offset: 2px;
 }
 
@@ -263,9 +263,9 @@
     180deg,
     #ff952e 0 33.33%,
     #fff 33.33% 66.66%,
-    #15ad5a 66.66%
+    #657f2d 66.66%
   );
-  box-shadow: 0 0 0 calc(.6 * var(--mc-u)) #e8f1ed;
+  box-shadow: 0 0 0 calc(.6 * var(--mc-u)) #f4f7ec;
 }
 
 .flagIndia i {
@@ -285,7 +285,7 @@
     #f33b57 0 calc(2.15 * var(--mc-u)),
     #fff calc(2.15 * var(--mc-u)) calc(4.3 * var(--mc-u))
   );
-  box-shadow: 0 0 0 calc(.6 * var(--mc-u)) #e8f1ed;
+  box-shadow: 0 0 0 calc(.6 * var(--mc-u)) #f4f7ec;
 }
 
 .flagUsa i {
@@ -303,8 +303,8 @@
 .cardLineIcon {
   display: grid;
   place-items: center;
-  color: #14855a;
-  background: #e8fdf5;
+  color: #657f2d;
+  background: #f3f6e9;
 }
 
 .cardLineIcon .lineIcon {
@@ -362,14 +362,14 @@
 
 .sparkline polyline {
   fill: none;
-  stroke: #19d99c;
+  stroke: #78923d;
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
 .sparkline circle {
-  fill: #18d89b;
+  fill: #78923d;
   stroke: #fff;
   stroke-width: 1.5;
 }
@@ -378,7 +378,7 @@
   position: absolute;
   right: 0;
   bottom: calc(9 * var(--mc-u));
-  color: #10ca88;
+  color: #657f2d;
   font-size: calc(7.2 * var(--mc-u));
   font-weight: 720;
   line-height: 1;
@@ -396,7 +396,7 @@
   width: calc(226 * var(--mc-u));
   height: calc(350 * var(--mc-u));
   padding: calc(20 * var(--mc-u)) calc(18 * var(--mc-u)) 0;
-  border: calc(.8 * var(--mc-u)) solid #e9f2ef;
+  border: calc(.8 * var(--mc-u)) solid #f4f7ec;
   border-radius: calc(15 * var(--mc-u));
   background: rgba(255, 255, 255, .9);
   box-shadow: 0 calc(14 * var(--mc-u)) calc(34 * var(--mc-u))
@@ -431,7 +431,7 @@
 
 .coverageLink:focus-visible {
   border-radius: calc(8 * var(--mc-u));
-  outline: 2px solid #14855a;
+  outline: 2px solid #657f2d;
   outline-offset: 2px;
 }
 
@@ -442,7 +442,7 @@
   bottom: 0;
   width: calc(179 * var(--mc-u));
   height: calc(.8 * var(--mc-u));
-  background: #eaf3ef;
+  background: #f6f8f0;
 }
 
 .coverageIcon {
@@ -451,7 +451,7 @@
   display: grid;
   place-items: center;
   border-radius: 50%;
-  background: #e8fdf5;
+  background: #f3f6e9;
 }
 
 .coverageIcon .lineIcon {
@@ -502,7 +502,7 @@
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   align-items: center;
-  border: calc(.8 * var(--mc-u)) solid #e9f2ef;
+  border: calc(.8 * var(--mc-u)) solid #f4f7ec;
   border-radius: calc(15 * var(--mc-u));
   background: rgba(255, 255, 255, .88);
   box-shadow: 0 calc(10 * var(--mc-u)) calc(32 * var(--mc-u))
@@ -528,7 +528,7 @@
   top: calc(1 * var(--mc-u));
   width: calc(.8 * var(--mc-u));
   height: calc(60 * var(--mc-u));
-  background: #e8f1ee;
+  background: #f4f7ec;
 }
 
 .summaryIcon {
@@ -537,7 +537,7 @@
   display: grid;
   place-items: center;
   border-radius: 50%;
-  background: radial-gradient(circle, #fff 8%, #e8fdf5 73%, #e8fdf5 100%);
+  background: radial-gradient(circle, #fff 8%, #f3f6e9 73%, #f3f6e9 100%);
   box-shadow: 0 calc(7 * var(--mc-u)) calc(18 * var(--mc-u))
     rgba(30, 123, 87, .08);
 }
@@ -597,7 +597,7 @@
 
 .footerStatement em {
   margin: 0 calc(-4 * var(--mc-u));
-  color: #178259;
+  color: #657f2d;
   font-family: var(--font-serif), Georgia, serif;
   font-size: calc(13 * var(--mc-u));
   font-weight: 590;
@@ -684,7 +684,7 @@
     min-height: 126px;
     padding: 18px;
     grid-template-columns: 56px 1fr;
-    border: 1px solid #e5f1ec;
+    border: 1px solid #f4f7ec;
     border-radius: 16px;
     background: rgba(255, 255, 255, .92);
     box-shadow: 0 12px 30px rgba(31, 91, 68, .06);
@@ -795,7 +795,7 @@
     order: 5;
     margin-top: 28px;
     padding: 24px;
-    border: 1px solid #e9f2ef;
+    border: 1px solid #f4f7ec;
     border-radius: 18px;
   }
 
@@ -858,7 +858,7 @@
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 12px;
-    border: 1px solid #e9f2ef;
+    border: 1px solid #f4f7ec;
     border-radius: 18px;
   }
 
@@ -867,7 +867,7 @@
     padding: 14px;
     grid-template-columns: 52px 1fr;
     border-radius: 14px;
-    background: #e8fdf5;
+    background: #f3f6e9;
   }
 
   .summaryItem:not(:first-child)::before {

@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { readFile } from "node:fs/promises";
 
 const REQUIRED_COPY = [
   "IPO GMP Tracker",
@@ -46,7 +47,7 @@ test("homepage renders the live IPO GMP Tracker directly after Hero", async () =
     assert.ok(text.includes(copy), "Missing: " + copy);
   }
 
-  const hero = text.indexOf("AI-POWERED MARKET INTELLIGENCE");
+  const hero = text.indexOf("SMARTER ALERTS. BETTER TRADES.");
   const tracker = text.indexOf("IPO GMP Tracker");
   const howItWorks = text.indexOf("How signals become conviction.");
   assert.ok(hero >= 0 && tracker > hero && howItWorks > tracker);
@@ -72,4 +73,30 @@ test("homepage renders the live IPO GMP Tracker directly after Hero", async () =
   const rowCount = (bodyMatch[1].match(/<tr>/g) || []).length;
   assert.ok(rowCount >= 1, "Expected at least one row from the live IPO provider");
   assert.equal((bodyMatch[1].match(/target="_blank"/g) || []).length, rowCount);
+});
+
+test("IPO tracker inherits the hero olive visual system and responsive flow", async () => {
+  const css = await readFile(new URL("../src/app/components/IpoMarketIntelligence.module.css", import.meta.url), "utf8");
+
+  assert.match(css, /--ipo-olive:\s*#657f2d/);
+  assert.match(css, /--ipo-olive-dark:\s*#4f6721/);
+  assert.match(css, /--section-max:\s*1920px/);
+  assert.match(css, /--section-content-max:\s*1580px/);
+  assert.match(css, /max-width:\s*var\(--section-content-max\)/);
+  assert.match(css, /\.section\s*\{[^}]*height:\s*auto/s);
+  assert.match(css, /\.trackerTable th\s*\{[^}]*background:\s*linear-gradient\([^;]*#718b35[^;]*#526a23/s);
+  assert.match(css, /@media\s*\(max-width:\s*720px\)[\s\S]*\.trackerTable thead\s*\{[^}]*display:\s*none/s);
+  assert.match(css, /@media\s*\(max-width:\s*720px\)[\s\S]*\.trackerTable tr\s*\{[^}]*display:\s*grid/s);
+});
+
+test("IPO tracker makes GMP the primary visual signal instead of a generic KPI card", async () => {
+  const source = await readFile(new URL("../src/app/components/IpoMarketIntelligence.js", import.meta.url), "utf8");
+  const css = await readFile(new URL("../src/app/components/IpoMarketIntelligence.module.css", import.meta.url), "utf8");
+
+  assert.match(source, /className=\{s\.heroGmp\}/);
+  assert.match(source, /Awaiting live GMP/);
+  assert.match(source, /className=\{s\.marketStrip\}/);
+  assert.match(source, /IPO watchlist/);
+  assert.match(css, /\.heroGmp\s*\{[^}]*background:\s*linear-gradient\([^;]*#718b35[^;]*#526a23/s);
+  assert.match(css, /\.gmpValue\s*\{[^}]*font-size:\s*clamp\(/s);
 });

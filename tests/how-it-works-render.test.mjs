@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { readFile } from "node:fs/promises";
 
 const COPY = [
   "HOW IT WORKS",
@@ -106,12 +107,12 @@ test("the homepage renders the complete How It Works section below the hero", as
   );
   assert.ok(section, "Missing labelled How It Works section");
 
-  const circleStart = section[0].indexOf('data-decision-circle="true"');
+  const circleStart = section[0].indexOf('data-decision-engine="true"');
   const validationStart = section[0].indexOf(
     "Backtested. Stress Tested. Continuously Learning.",
     circleStart,
   );
-  assert.ok(circleStart >= 0, "Missing isolated AI decision circle");
+  assert.ok(circleStart >= 0, "Missing isolated AI decision engine");
   assert.ok(
     validationStart > circleStart,
     "Validation strip must follow the decision circle",
@@ -136,4 +137,35 @@ test("the homepage renders the complete How It Works section below the hero", as
       "Backtested. Stress Tested. Continuously Learning.",
     ),
   );
+});
+
+test("How It Works uses a readable three-stage pipeline", async () => {
+  const css = await readFile(new URL("../src/app/components/HowItWorks.module.css", import.meta.url), "utf8");
+
+  assert.match(css, /\.section\s*\{[^}]*--how-olive:\s*#657f2d/s);
+  assert.match(css, /\.workflow\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*\.95fr\)\s*minmax\(320px,\s*1fr\)\s*minmax\(0,\s*1\.15fr\)/s);
+  assert.match(css, /\.inputs,\.engine,\.outcomes\s*\{[^}]*background:\s*rgba\(255,\s*255,\s*255,\s*\.96\)/s);
+  assert.match(css, /\.decisionPanel\s*\{[^}]*border-radius:\s*18px/s);
+  assert.match(css, /\.analysisGrid\s*\{[^}]*grid-template-columns:\s*1fr/s);
+  assert.match(css, /\.analysisNode\s*\{[^}]*border-left:\s*2px solid var\(--how-olive\)/s);
+  assert.match(css, /\.outcomes\s*\{[^}]*display:\s*grid/s);
+  assert.match(css, /\.alertCard\s*\{[^}]*min-height:\s*246px/s);
+  assert.match(css, /\.inputCopy>span\s*\{[^}]*font-size:\s*13px/s);
+  assert.match(css, /\.analysisNode>span:not\(\.analysisIcon\)\s*\{[^}]*font-size:\s*12px/s);
+  assert.match(css, /\.priceVisual path,[\s\S]*\.outcomeChart path\s*\{[^}]*stroke:\s*var\(--how-olive\)\s*!important/s);
+  assert.match(css, /\.core\s*\{[\s\S]*linear-gradient\([^;]*#718b35[^;]*#526a23/s);
+  assert.match(css, /\.outcomeCard\s*\{[^}]*border:\s*1px solid var\(--how-border\)/s);
+  assert.match(css, /\.alertCard\s*\{[^}]*background:\s*linear-gradient\([^;]*#536c23[^;]*#34451a/s);
+  assert.match(css, /@media\s*\(max-width:\s*1100px\)[\s\S]*\.workflow\s*\{[^}]*grid-template-columns:\s*1fr/s);
+});
+
+test("How It Works communicates a literal collect validate alert flow", async () => {
+  const source = await readFile(new URL("../src/app/components/HowItWorks.js", import.meta.url), "utf8");
+  const css = await readFile(new URL("../src/app/components/HowItWorks.module.css", import.meta.url), "utf8");
+
+  assert.match(source, /01 · COLLECT/);
+  assert.match(source, /02 · VALIDATE/);
+  assert.match(source, /03 · ALERT/);
+  assert.match(css, /\.inputs::after,[\s\S]*\.engine::after\s*\{[^}]*content:\s*"→"/s);
+  assert.match(css, /\.stageVerb\s*\{[^}]*font-size:\s*12px/s);
 });

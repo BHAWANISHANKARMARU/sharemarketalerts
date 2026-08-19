@@ -331,30 +331,27 @@ test("homepage-only conversion sections do not repeat on platform routes", async
   assert.match(template, /<Footer/);
 });
 
-test("homepage desktop and mobile navigation consume the shared destinations", async () => {
+test("homepage desktop and mobile navigation follow the supplied hero reference", async () => {
   const hero = await readFile(
     new URL("src/app/components/Hero.js", ROOT),
     "utf8",
   );
-  const mobile = await readFile(
-    new URL("src/app/components/MobileHero.js", ROOT),
-    "utf8",
-  );
 
-  assert.match(hero, /NAV_ITEMS/);
-  assert.match(mobile, /NAV_ITEMS/);
-  assert.doesNotMatch(hero, /\["Performance"|\["Pricing"|\["How It Works"/);
-  assert.doesNotMatch(mobile, />Pricing<|>How It Works</);
+  for (const label of ["Features", "Alerts", "Markets", "Pricing", "Testimonials", "Blog", "About"]) {
+    assert.match(hero, new RegExp(`"${label}"`));
+  }
+  assert.match(hero, /menuOpen/);
+  assert.match(hero, /mobileNav/);
 });
 
 test("homepage mobile navigation remains readable with seven destinations", async () => {
   const styles = await readFile(
-    new URL("src/app/components/MobileHero.module.css", ROOT),
+    new URL("src/app/components/Hero.module.css", ROOT),
     "utf8",
   );
 
-  assert.match(styles, /\.mobileMenu\s*\{[\s\S]*?width:\s*calc\(230 \* var\(--m\)\)/);
-  assert.match(styles, /\.mobileMenu a\s*\{[\s\S]*?font-size:\s*calc\(14\.5 \* var\(--m\)\)/);
+  assert.match(styles, /\.mobileNav\s*\{[\s\S]*?display:\s*grid/);
+  assert.match(styles, /\.mobileNav a\s*\{[\s\S]*?font-size:\s*14px/);
 });
 
 test("footer navigation points to real platform routes from every page", async () => {

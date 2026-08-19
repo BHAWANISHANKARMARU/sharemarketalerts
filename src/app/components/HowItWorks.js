@@ -345,10 +345,10 @@ export default function HowItWorks() {
           </p>
         </header>
 
-        <ConnectorMap />
-
-        <div className={s.inputs}>
+        <div className={s.workflow}>
+          <div className={s.inputs}>
           <div className={s.columnHeading}>
+            <span className={s.stageVerb}>01 · COLLECT</span>
             <h3>MARKET INPUTS</h3>
             <p>Always on. Always learning.</p>
           </div>
@@ -364,63 +364,38 @@ export default function HowItWorks() {
               </article>
             ))}
           </div>
-        </div>
+          </div>
 
-        <div className={s.engine}>
+          <div className={s.engine}>
           <div className={`${s.columnHeading} ${s.engineHeading}`}>
+            <span className={s.stageVerb}>02 · VALIDATE</span>
             <h3>AI DECISION ENGINE</h3>
             <p>Analyze. Validate. Prioritize.</p>
           </div>
 
-          <div className={s.decisionCircle} data-decision-circle="true">
-            <div className={s.orbit} aria-hidden="true">
-              <span className={s.orbitGlow} />
-              <span className={`${s.ring} ${s.ringOne}`} />
-              <span className={`${s.ring} ${s.ringTwo}`} />
-              <span className={`${s.ring} ${s.ringThree}`} />
-              <i className={`${s.orbitDot} ${s.dotTop}`} />
-              <i className={`${s.orbitDot} ${s.dotRight}`} />
-              <i className={`${s.orbitDot} ${s.dotBottom}`} />
-              <i className={`${s.orbitDot} ${s.dotLeft}`} />
-            </div>
-
-            <AnalysisNode
-              className={s.probability}
-              icon={<BrainIcon />}
-              title="PROBABILITY"
-              lines={["24/7 AI models", "ensemble scoring"]}
-            />
-            <AnalysisNode
-              className={s.trend}
-              icon={<PulseIcon />}
-              title="TREND STRENGTH"
-              lines={["Momentum & regime", "confirmation"]}
-            />
-            <AnalysisNode
-              className={s.riskCalibration}
-              icon={<ShieldIcon />}
-              title="RISK CALIBRATION"
-              lines={["Volatility, liquidity &", "drawdown control"]}
-            />
-
+          <div className={s.decisionPanel} data-decision-engine="true">
             <div className={s.core}>
               <CoreMark />
-              <strong>ShareMarketAlerts</strong>
-              <span>Intelligence Core</span>
+              <span><strong>ShareMarketAlerts</strong><small>Intelligence Core</small></span>
+            </div>
+            <div className={s.analysisGrid}>
+              <AnalysisNode icon={<BrainIcon />} title="PROBABILITY" lines={["24/7 AI models", "ensemble scoring"]} />
+              <AnalysisNode icon={<PulseIcon />} title="TREND STRENGTH" lines={["Momentum & regime", "confirmation"]} />
+              <AnalysisNode icon={<ShieldIcon />} title="RISK CALIBRATION" lines={["Volatility, liquidity &", "drawdown control"]} />
+            </div>
+            <div className={s.validation}>
+              <span className={s.validationShield}><ShieldIcon /></span>
+              <span>
+                <strong>Backtested. Stress Tested. Continuously Learning.</strong>
+                <small>Every signal is tested across thousands of market scenarios.</small>
+              </span>
             </div>
           </div>
-
-          <div className={s.validation}>
-            <span className={s.validationShield}><ShieldIcon /></span>
-            <span>
-              <strong>Backtested. Stress Tested. Continuously Learning.</strong>
-              <small>Every signal is tested across thousands of market scenarios.</small>
-            </span>
           </div>
-        </div>
 
-        <div className={s.outcomes}>
+          <div className={s.outcomes}>
           <div className={s.columnHeading}>
+            <span className={s.stageVerb}>03 · ALERT</span>
             <h3>ACTIONABLE OUTCOME</h3>
             <p>Clarity you can act on.</p>
           </div>
@@ -467,6 +442,7 @@ export default function HowItWorks() {
             </span>
             <DeliveryIcons />
           </article>
+          </div>
         </div>
 
         <div className={s.values}>

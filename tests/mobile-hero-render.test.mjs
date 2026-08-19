@@ -1,86 +1,54 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
+
+const ROOT = new URL("../", import.meta.url);
 
 function visibleText(html) {
   return html
     .replace(/<script[\s\S]*?<\/script>/g, " ")
     .replace(/<style[\s\S]*?<\/style>/g, " ")
     .replace(/<[^>]+>/g, " ")
-    .replaceAll("&amp;", "&")
     .replace(/\s+/g, " ")
-    .replace(/\s+([.,!?/])/g, "$1")
     .trim();
 }
 
-const MOBILE_COPY = [
-  "SHAREMARKETALERTS",
-  "Free Trial",
-  "LIVE",
-  "Market Pulse",
-  "AI-POWERED MARKET INTELLIGENCE",
-  "Intelligence",
-  "that moves first.",
-  "Real-time AI scans uncover high-probability opportunities before the crowd sees them.",
-  "Start Free Trial",
-  "See It In Action",
-  "Market Momentum",
-  "BULLISH",
-  "Momentum Score",
-  "Breakout Signal",
-  "High Probability",
-  "Strength",
-  "Top Movers",
-  "Risk Level",
-  "LOW",
-  "Well Balanced",
-  "28/100",
-  "Risk Score",
-  "AI Real-Time Scanning",
-  "Never miss a move.",
-  "Instant Alerts",
-  "Delivered in real-time.",
-  "High Accuracy",
-  "Backtested & proven.",
-];
-
-test("homepage renders the approved mobile and tablet hero contract", async () => {
+test("homepage uses one complete hero that reflows on tablet and mobile", async () => {
   const response = await fetch("http://127.0.0.1:3000/");
   assert.equal(response.status, 200);
-
   const html = await response.text();
   const section = html.match(
-    /<section[^>]+data-mobile-hero="true"[\s\S]*?<\/section>/,
+    /<section[^>]+data-reference-hero="true"[\s\S]*?<\/section>/,
   );
-  assert.ok(section, "Missing dedicated mobile hero");
+  assert.ok(section, "Missing responsive reference hero");
 
-  assert.ok(
-    !section[0].includes('data-mobile-phone="true"'),
-    "Mobile hero must render as page content, not inside a phone mockup",
-  );
-
-  const text = visibleText(section[0]);
-  for (const copy of MOBILE_COPY) {
-    assert.ok(text.includes(copy), `Missing mobile copy: ${copy}`);
+  const text = visibleText(html);
+  for (const copy of [
+    "SMARTER ALERTS. BETTER TRADES.",
+    "Real-Time Share",
+    "Market Alerts",
+    "That Give You Edge",
+    "Start Free Trial",
+    "Watch Demo",
+    "Live Market Overview",
+    "Recent Alerts",
+    "Trusted by 50K+ Traders",
+  ]) {
+    assert.ok(text.includes(copy), `Missing responsive hero copy: ${copy}`);
   }
 
-  assert.match(text, /(?:BULLISH|BEARISH|NEUTRAL) \d{1,3}\s*% Momentum Score/);
-  assert.ok((section[0].match(/finance\.yahoo\.com\/quote\//g)?.length ?? 0) >= 4);
+  assert.equal((section[0].match(/data-hero-benefit="true"/g) ?? []).length, 3);
+  assert.equal((section[0].match(/data-market-alert="true"/g) ?? []).length, 3);
+});
 
-  const momentum = section[0].indexOf('data-mobile-card="momentum"');
-  const breakout = section[0].indexOf('data-mobile-card="breakout"');
-  const movers = section[0].indexOf('data-mobile-card="movers"');
-  const risk = section[0].indexOf('data-mobile-card="risk"');
-  assert.ok(
-    momentum >= 0 && momentum < breakout && breakout < movers && movers < risk,
-    "Mobile cards must follow the approved order",
+test("hero CSS stacks without horizontal overflow on narrow devices", async () => {
+  const styles = await readFile(
+    new URL("src/app/components/Hero.module.css", ROOT),
+    "utf8",
   );
-
-  assert.ok(
-    section[0].includes("mobile-market-momentum-v1"),
-    "Mobile hero must use the generated momentum asset",
-  );
-  assert.equal(
-    (section[0].match(/data-mobile-feature="true"/g) ?? []).length,
-    3,
-  );
+  assert.match(styles, /@media \(max-width:\s*820px\)/);
+  assert.match(styles, /@media \(max-width:\s*720px\)/);
+  assert.match(styles, /\.heroBody[\s\S]*?grid-template-columns:\s*1fr/);
+  assert.match(styles, /\.marketCard\s*\{\s*width:\s*100%/);
+  assert.match(styles, /overflow-x:\s*hidden/);
 });

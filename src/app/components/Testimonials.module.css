@@ -5,7 +5,7 @@
   max-height: 1068.69px;
   overflow: hidden;
   background: var(--surface-soft, #f4f9f8);
-  color: #0a291d;
+  color: #20251d;
   font-family: var(--font-sans), Arial, sans-serif;
 }
 
@@ -29,7 +29,7 @@
 }
 
 .eyebrow {
-  color: #14855a;
+  color: #657f2d;
   font-size: calc(13 * var(--tm-u));
   font-weight: 800;
   line-height: 1;
@@ -55,7 +55,7 @@
 }
 
 .header h2 em {
-  color: #178259;
+  color: #657f2d;
   font-family: var(--font-serif), Georgia, serif;
   font-style: italic;
   font-weight: 520;
@@ -182,14 +182,14 @@
   place-items: center;
   flex: none;
   border-radius: 50%;
-  background: #e8fdf5;
+  background: #f3f6e9;
 }
 
 .metricIcon svg {
   width: calc(32 * var(--tm-u));
   height: calc(32 * var(--tm-u));
   fill: none;
-  stroke: #168359;
+  stroke: #657f2d;
   stroke-width: 1.9;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -330,7 +330,7 @@
     justify-content: center;
     text-align: center;
     border-radius: 14px;
-    background: #e8fdf5;
+    background: #f3f6e9;
   }
 
   .metrics li:not(:last-child)::after {

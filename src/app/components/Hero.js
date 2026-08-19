@@ -3,469 +3,206 @@
 import { useState } from "react";
 import Link from "next/link";
 import s from "./Hero.module.css";
-import MobileHero from "./MobileHero";
-import { useMarketData } from "./MarketDataProvider";
-import {
-  ArrowRight,
-  BoltIcon,
-  BoltSolid,
-  ClipboardCheck,
-  DialIcon,
-  LogoMark,
-  PlayGlyph,
-  ScanIcon,
-  ShieldCheck,
-  SignalIcon,
-  StackIcon,
-  Star,
-  TrendGlyph,
-  UsersIcon,
-} from "./icons";
-import { NAV_ITEMS } from "./siteNavigation";
+
+const NAV = [
+  ["Features", "#features"],
+  ["Alerts", "/stock-alerts"],
+  ["Markets", "/markets"],
+  ["Pricing", "#pricing"],
+  ["Testimonials", "#testimonials"],
+  ["Blog", "/insights"],
+  ["About", "#about"],
+];
+
+const BENEFITS = [
+  ["bell", "Real-Time Alerts", "Never miss profitable opportunities"],
+  ["target", "Expert Insights", "Professional analysis you can trust"],
+  ["shield", "Actionable Signals", "Clear signals to help you take action"],
+];
+
+const ALERTS = [
+  ["mountain", "RELIANCE", "Breakout above ₹2,950", "09:45 AM"],
+  ["bars", "TCS", "Strong Volume Spike", "09:32 AM"],
+  ["bolt", "INFY", "Momentum Building", "09:15 AM"],
+];
 
 const STATS = [
-  ["24/7", "AI Scanning"],
-  ["1.2M+", "Signals/Day"],
-  ["87%", "Accuracy"],
-  ["< 1s", "Delivery Speed"],
+  ["users", "50K+", "Active Traders"],
+  ["target", "98.6%", "Accuracy Rate"],
+  ["clock", "24/7", "Real-Time Monitoring"],
+  ["trend", "100+", "Stocks Covered"],
 ];
 
-const MOVER_COLORS = [
-  ["#1c1b18", "#e8b23a"],
-  ["#1a70c8", "#e0453c"],
-  ["#123a6e", "#e0453c"],
-  ["#c9ccd4", "#25457a"],
-  ["#f0f1f4", "#d0342c"],
-];
-
-const FEED = [
-  {
-    sym: "TATASTEEL",
-    type: "Breakout",
-    time: "2s ago",
-    level: "High",
-    a: "#1d2330",
-    b: "#2f9e63",
-  },
-  {
-    sym: "NIFTY 26 JUN 24600 CE",
-    type: "Breakout",
-    time: "5s ago",
-    level: "High",
-    signal: true,
-    stacked: true,
-  },
-  {
-    sym: "BEL",
-    type: "Momentum",
-    time: "8s ago",
-    level: "Medium",
-    a: "#e8e9ee",
-    b: "#1f7a4d",
-  },
-];
-
-const FEATURES = [
-  { Icon: ScanIcon, title: "AI Real-Time Scanning", body: ["Markets never sleep.", "Neither do we."], halo: true },
-  { Icon: BoltIcon, title: "Instant Alerts", body: ["Signals delivered in", "under 1 second."] },
-  { Icon: ShieldCheck, title: "High Accuracy", body: ["Backtested. Validated.", "Proven to perform."] },
-  { Icon: StackIcon, title: "Data You Can Trust", body: ["Clean, deep and", "continuously updated."] },
-];
-
-const TRUST = [
-  { Icon: UsersIcon, value: "250K+", label: "Active Traders" },
-  { Icon: ClipboardCheck, value: "25M+", label: "Signals Delivered" },
-  { Icon: DialIcon, value: "87%", label: "Average Accuracy" },
-  { Icon: BoltSolid, value: "<1 Sec", label: "Alert Delivery" },
-];
-
-/* Partner row — plain wordmarks with generic marks, not the partners'
-   trademarked logos. */
-const PARTNERS = [
-  { name: "ZERODHA", mark: "flag" },
-  { name: "upstox", mark: "dash" },
-  { name: "Groww", mark: "disc" },
-  { name: "AngelOne", mark: "peak" },
-  { name: "aliceblue", mark: null },
-];
-
-function PartnerMark({ kind, className }) {
-  if (!kind) return null;
-  if (kind === "dash")
-    return (
-      <svg className={className} viewBox="0 0 18 18" aria-hidden="true">
-        <rect x="1" y="8" width="9" height="2.2" rx="1.1" fill="currentColor" />
-      </svg>
-    );
-  if (kind === "disc")
-    return (
-      <svg className={className} viewBox="0 0 18 18" aria-hidden="true">
-        <circle cx="9" cy="9" r="8" fill="#6b7597" />
-        <path d="M1.6 10.6c2.6-3.4 5.2-3.4 7.4-.6s4.8 2.4 7.4-1" stroke="#eef0f6" strokeWidth="1.8" fill="none" />
-      </svg>
-    );
-  if (kind === "peak")
-    return (
-      <svg className={className} viewBox="0 0 18 18" aria-hidden="true">
-        <path d="M9 2 15.5 16h-3.2L9 7.6 5.7 16H2.5L9 2Z" fill="currentColor" />
-      </svg>
-    );
-  return (
-    <svg className={className} viewBox="0 0 18 18" aria-hidden="true">
-      <path d="M3 2h7l5 6.5V16H3V2Z" fill="currentColor" />
-    </svg>
-  );
+function Mark({ name, className }) {
+  const common = { className, viewBox: "0 0 32 32", fill: "none", "aria-hidden": true };
+  if (name === "bell") return <svg {...common}><path d="M8 23h16l-2.2-3.2V14a5.8 5.8 0 0 0-11.6 0v5.8L8 23Z"/><path d="M13.5 25.5a2.7 2.7 0 0 0 5 0"/></svg>;
+  if (name === "target") return <svg {...common}><circle cx="16" cy="16" r="9"/><circle cx="16" cy="16" r="3.5"/><path d="M16 3v5m0 16v5M3 16h5m16 0h5"/></svg>;
+  if (name === "shield") return <svg {...common}><path d="M16 4 25 8v7c0 6.2-3.7 10.3-9 13-5.3-2.7-9-6.8-9-13V8l9-4Z"/></svg>;
+  if (name === "users") return <svg {...common}><circle cx="12" cy="11" r="4"/><circle cx="22" cy="12" r="3"/><path d="M4 27v-3c0-4 3.2-7 8-7s8 3 8 7v3M20 19c4.5 0 7 2.2 7 5.5V27"/></svg>;
+  if (name === "clock") return <svg {...common}><circle cx="16" cy="16" r="12"/><path d="M16 8v8h7"/></svg>;
+  if (name === "trend") return <svg {...common}><path d="m4 24 8-8 5 5L28 9"/><path d="M20 9h8v8"/></svg>;
+  if (name === "mountain") return <svg {...common}><path d="m7 22 8-12 9 12H7Z"/><path d="m12 18 3-3 2 2 2-2"/></svg>;
+  if (name === "bars") return <svg {...common}><path d="M7 25V17m6 8V12m6 13V15m6 10V7"/><path d="m6 15 7-6 6 3 7-7"/></svg>;
+  if (name === "bolt") return <svg {...common}><path d="m18 3-9 15h7l-2 11 9-16h-7l2-10Z"/></svg>;
+  return null;
 }
 
-/* Tiny circular ticker avatars — monograms, not third-party marks. */
-function Avatar({ a, b, sym }) {
+function Logo() {
   return (
-    <span className={s.avatar} style={{ background: a, color: b }}>
-      {sym.charAt(0)}
+    <span className={s.logoMark} aria-hidden="true">
+      <svg viewBox="0 0 46 46">
+        <circle cx="23" cy="23" r="23" />
+        <path className={s.logoBars} d="M10 31V23h5v8m4 0V18h5v13m4 0V12h5v19m4 0V8h3v23" />
+        <path className={s.logoArrow} d="m9 22 9-8 7 4 12-11m-6 0h6v6" />
+      </svg>
     </span>
   );
 }
 
+function MarketBackdrop() {
+  return (
+    <svg className={s.marketBackdrop} viewBox="0 0 820 820" aria-hidden="true">
+      <defs>
+        <radialGradient id="hero-disc" cx="48%" cy="42%" r="66%">
+          <stop offset="0" stopColor="#c9d5a7" />
+          <stop offset=".72" stopColor="#a9ba7e" />
+          <stop offset="1" stopColor="#97aa69" />
+        </radialGradient>
+        <radialGradient id="backdrop-ring-mask-gradient" cx="24%" cy="18%" r="84%">
+          <stop offset="0" stopColor="white" />
+          <stop offset=".46" stopColor="white" stopOpacity=".92" />
+          <stop offset=".69" stopColor="white" stopOpacity=".18" />
+          <stop offset=".84" stopColor="black" />
+        </radialGradient>
+        <mask id="backdrop-ring-fade">
+          <rect width="820" height="820" fill="url(#backdrop-ring-mask-gradient)" />
+        </mask>
+      </defs>
+      <g mask="url(#backdrop-ring-fade)">
+        <circle data-backdrop-ring="3" className={s.backdropRing} cx="410" cy="410" r="405" />
+        <circle data-backdrop-ring="2" className={s.backdropRing} cx="410" cy="410" r="360" />
+        <circle data-backdrop-ring="1" className={s.backdropRing} cx="410" cy="410" r="315" />
+      </g>
+      <circle data-backdrop-disc="true" className={s.backdropDisc} cx="410" cy="410" r="290" />
+
+      <g className={s.backdropCandles} data-candle-cluster="left" transform="translate(-72 0)">
+        <path d="M25 520v-58M52 501v-78M79 484v-89M106 459v-91M133 438v-105M160 413v-116M187 387v-125" />
+        <rect x="18" y="480" width="14" height="28" /><rect x="45" y="458" width="14" height="31" />
+        <rect x="72" y="438" width="14" height="29" /><rect x="99" y="411" width="14" height="34" />
+        <rect x="126" y="385" width="14" height="36" /><rect x="153" y="350" width="14" height="47" />
+        <rect x="180" y="315" width="14" height="55" />
+      </g>
+
+      <g className={s.backdropCandles} data-candle-cluster="right" transform="translate(28 0)">
+        <path d="M642 253V113M676 286V153M710 260V126M744 300V167M778 280V137M812 237V97" />
+        <rect x="633" y="139" width="18" height="77" /><rect x="667" y="188" width="18" height="65" />
+        <rect x="701" y="153" width="18" height="74" /><rect x="735" y="210" width="18" height="60" />
+        <rect x="769" y="177" width="18" height="72" /><rect x="803" y="122" width="18" height="80" />
+      </g>
+    </svg>
+  );
+}
+
+function MarketCard() {
+  return (
+    <div className={s.marketWrap}>
+      <MarketBackdrop />
+      <section className={s.marketCard} aria-label="Live Market Overview">
+        <div className={s.cardTopline}><strong>Live Market Overview</strong><span>↗</span></div>
+        <div className={s.marketSummary}>
+          <div>
+            <div className={s.indexName}>NIFTY 50 <span>▲ 1.18%</span></div>
+            <strong className={s.indexValue}>22,957.25</strong>
+            <small><b>+267.90 (1.18%)</b> Today</small>
+          </div>
+          <div className={s.chart} aria-label="NIFTY 50 intraday trend">
+            <svg viewBox="0 0 250 92" role="img">
+              <path className={s.gridLine} d="M0 73h250M0 44h250" />
+              <path className={s.chartLine} d="M0 70 9 50l10 13 9-25 10 20 10-8 9 16 10-5 9 7 11-28 10 12 9-8 10 11 10-17 10 10 9-12 10 5 10-10 10-5 10-10 10-1" />
+              <circle cx="245" cy="15" r="5" />
+            </svg>
+            <div><span>09:15</span><span>11:00</span><span>12:30</span><span>14:00</span><span>15:30</span></div>
+          </div>
+        </div>
+        <div className={s.alertHeading}><strong>Recent Alerts</strong><a href="/stock-alerts">View All →</a></div>
+        <div className={s.alertList}>
+          {ALERTS.map(([icon, symbol, detail, time]) => (
+            <div className={s.alertRow} data-market-alert="true" key={symbol}>
+              <span className={s.alertIcon}><Mark name={icon} /></span>
+              <span className={s.alertCopy}><strong>{symbol}</strong><small>{detail}</small></span>
+              <time>{time}</time><span className={s.bullish}>Bullish</span>
+            </div>
+          ))}
+        </div>
+      </section>
+      <div className={s.trustCard}>
+        <Mark name="shield" className={s.trustShield} />
+        <span><strong>Trusted by 50K+ Traders</strong><small>across India</small></span>
+        <div className={s.avatars} aria-label="Trusted trader community">
+          <i data-trader-avatar="true" aria-hidden="true" />
+          <i data-trader-avatar="true" aria-hidden="true" />
+          <i data-trader-avatar="true" aria-hidden="true" />
+          <i>50K+</i>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Hero() {
-  const marketData = useMarketData();
-  const [moverTab, setMoverTab] = useState("Gainers");
-  const ticker = marketData.market.ticker;
-  const moverPool =
-    moverTab === "Gainers"
-      ? marketData.market.gainers
-      : moverTab === "Breakouts"
-        ? [...marketData.market.gainers, ...marketData.market.losers]
-            .sort((a, b) => Math.abs(b.changePercent) - Math.abs(a.changePercent))
-            .slice(0, 5)
-        : [...marketData.market.gainers, ...marketData.market.losers]
-            .sort((a, b) => (b.volume || 0) - (a.volume || 0))
-            .slice(0, 5);
-  const movers = moverPool.map((mover, index) => ({
-    ...mover,
-    sym: mover.displaySymbol,
-    px: mover.formattedValue,
-    chg: mover.formattedChange,
-    a: MOVER_COLORS[index][0],
-    b: MOVER_COLORS[index][1],
-  }));
-  const featuredSignal = marketData.market.opportunities[0];
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <>
-      <div className={s.root}>
-      {/* ── Top nav ─────────────────────────────────────────── */}
-      <header className={s.nav}>
-        <Link className={s.brand} href="/">
-          <LogoMark className={s.brandMark} />
-          <span className={s.brandWord}>SHAREMARKETALERTS</span>
+    <section className={s.hero} data-reference-hero="true">
+      <header className={s.header}>
+        <Link className={s.brand} href="/" aria-label="ShareMarket Alerts home">
+          <Logo />
+          <span>ShareMarket<em>Alerts</em></span>
         </Link>
-
-        <nav className={s.navLinks}>
-          {NAV_ITEMS.map(({ label, href }) => (
-            <Link key={href} href={href}>
-              {label}
-            </Link>
-          ))}
+        <nav className={s.nav} aria-label="Primary navigation">
+          {NAV.map(([label, href]) => <Link href={href} key={label}>{label}</Link>)}
         </nav>
-
-        <div className={s.navRight}>
-          <a className={s.login} href="mailto:support@sharemarketalerts.com?subject=ShareMarketAlerts%20login%20access">
-            Log in
-          </a>
-          <a className={s.btnDark} href="#pricing">
-            Start Free Trial <ArrowRight className={s.btnArrow} />
-          </a>
+        <div className={s.headerActions}>
+          <a className={s.login} href="mailto:support@sharemarketalerts.com?subject=Login">Log In</a>
+          <a className={s.getStarted} href="#pricing">Get Started</a>
+          <button className={s.menuButton} type="button" aria-label="Toggle menu" aria-expanded={menuOpen} onClick={() => setMenuOpen((open) => !open)}><i /><i /><i /></button>
         </div>
+        {menuOpen && <nav className={s.mobileNav}>{NAV.map(([label, href]) => <Link href={href} key={label} onClick={() => setMenuOpen(false)}>{label}</Link>)}</nav>}
       </header>
 
-      {/* ── Market pulse ticker ─────────────────────────────── */}
-      <div className={s.ticker}>
-        <span className={s.livePill}>
-          <BoltSolid className={s.liveBolt} />
-          LIVE
-        </span>
-        <span className={s.tickerHead}>GLOBAL MARKET PULSE</span>
-
-        <div className={s.tickerItems}>
-          {ticker.map((t, i) => (
-            <span key={t.symbol} className={s.tickerItem}>
-              <b>{t.label}</b>
-              <em>{t.formattedValue}</em>
-              <i className={t.direction === "down" ? s.down : s.up}>{t.formattedChange}</i>
-              {i < ticker.length - 1 && <span className={s.tickerDot} />}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* ── Stage ───────────────────────────────────────────── */}
-      <div className={s.stage}>
-        {/* artwork band: supplied render, clipped to the reference silhouette */}
-        <div className={s.bandGlow} aria-hidden="true" />
-        <div className={s.bandRim} aria-hidden="true" />
-        <div className={s.band} aria-hidden="true" />
-
-        {/* copy on the band */}
-        <div className={s.scanNote}>
-          <span className={s.scanLabel}>GLOBAL SCAN</span>
-          <span>
-            Scanning <b>75+</b> markets
-          </span>
-          <span>
-            <b>143,382</b> signals processed
-          </span>
-          <span>in the last 60 seconds</span>
-        </div>
-
-        <div className={s.momentum}>
-          <span className={s.momentumHead}>
-            <TrendGlyph className={s.momentumGlyph} />
-            MARKET MOMENTUM
-          </span>
-          <span className={s.bullish}>{marketData.market.momentumLabel}</span>
-          <span className={s.momentumPct}>{marketData.market.momentumScore === null ? "—" : `${marketData.market.momentumScore}%`}</span>
-          <span className={s.momentumSub}>Momentum Score</span>
-        </div>
-
-        {/* market status */}
-        <div className={s.marketStatus}>
-          <span className={s.statusDot} />
-          {marketData.market.statusLabel}
-        </div>
-
-        {/* left copy column */}
+      <div className={s.heroBody}>
         <div className={s.copy}>
-          <p className={s.eyebrow}>AI-POWERED MARKET INTELLIGENCE</p>
-          <h1 className={s.headline}>
-            Intelligence
-            <br />
-            that <i className={s.hlAccent}>moves</i> <i>first</i>
-            <span className={s.hlDot}>.</span>
-          </h1>
-          <p className={s.sub}>
-            Real-time AI scans uncover high-probability opportunities before the
-            crowd sees them.
-          </p>
-          <div className={s.ctas}>
-            <a className={s.btnDark} href="#pricing">
-              Start Free Trial <ArrowRight className={s.btnArrow} />
-            </a>
-            <a className={s.btnGhost} href="#market-intelligence">
-              <span className={s.playRing}>
-                <PlayGlyph className={s.playGlyph} />
-              </span>
-              See It In Action
-            </a>
-          </div>
-        </div>
-
-        {/* ── floating cards ─────────────────────────────────── */}
-        <div className={`${s.card} ${s.cardBreakout}`}>
-          <a className={s.rowLink} href={featuredSignal.href} target="_blank" rel="noreferrer" aria-label={`View ${featuredSignal.name} on Yahoo Finance`} />
-          <div className={s.breakoutHead}>
-            <span className={s.signalBadge}>
-              <SignalIcon className={s.signalIcon} />
-            </span>
-            <span>
-              <span className={s.cardKicker}>BREAKOUT SIGNAL</span>
-              <span className={s.breakoutName}>{featuredSignal.name}</span>
-            </span>
-          </div>
-          <div className={s.breakoutPrice}>
-            <span className={s.breakoutValue}>{featuredSignal.entry}</span>
-            <span className={s.breakoutChg}>{featuredSignal.change}</span>
-          </div>
-          <div className={s.strengthRow}>
-            <span className={s.strengthLabel}>Strength</span>
-            <span className={s.strengthPct}>{featuredSignal.confidence}</span>
-          </div>
-          <div className={s.bar}>
-            <span style={{ width: featuredSignal.confidence }} />
-          </div>
-          <div className={s.breakoutFoot}>
-            Live <span className={s.footDot} /> High Probability
-          </div>
-        </div>
-
-        <div className={`${s.card} ${s.cardStats}`}>
-          {STATS.map(([v, l]) => (
-            <div key={l} className={s.statCell}>
-              <span className={s.statValue}>{v}</span>
-              <span className={s.statLabel}>{l}</span>
-            </div>
-          ))}
-        </div>
-
-        <div className={`${s.card} ${s.cardMovers}`}>
-          <span className={s.cardTitle}>TOP MOVERS</span>
-          <div className={s.tabs} role="tablist" aria-label="Top mover category">
-            {["Gainers", "Breakouts", "Volume"].map((tab) => (
-              <button
-                type="button"
-                role="tab"
-                aria-selected={moverTab === tab}
-                className={moverTab === tab ? s.tabOn : undefined}
-                onClick={() => setMoverTab(tab)}
-                key={tab}
-              >
-                {tab}
-              </button>
-            ))}
-          </div>
-          <ul className={s.moverList}>
-            {movers.map((m) => (
-              <li key={m.sym}>
-                <a className={s.rowLink} href={m.href} target="_blank" rel="noreferrer" aria-label={`View ${m.sym} on Yahoo Finance`} />
-                <Avatar a={m.a} b={m.b} sym={m.sym} />
-                <span className={s.moverSym}>{m.sym}</span>
-                <span className={s.moverPx}>{m.px}</span>
-                <span className={s.moverChg}>{m.chg}</span>
-              </li>
-            ))}
-          </ul>
-          <a className={s.cardLink} href="https://finance.yahoo.com/markets/stocks/gainers/" target="_blank" rel="noreferrer">
-            View all movers <ArrowRight className={s.linkArrow} />
-          </a>
-        </div>
-
-        <div className={`${s.card} ${s.cardFeed}`}>
-          <div className={s.feedHead}>
-            <SignalIcon className={s.feedHeadIcon} />
-            <span className={s.cardKicker}>LIVE SIGNAL FEED</span>
-          </div>
-          <ul className={s.feedList}>
-            {FEED.map((f) => (
-              <li key={f.sym}>
-                {f.signal ? (
-                  <span className={`${s.avatar} ${s.avatarSignal}`}>
-                    <SignalIcon className={s.avatarSignalIcon} />
-                  </span>
-                ) : (
-                  <Avatar a={f.a} b={f.b} sym={f.sym} />
-                )}
-                <span className={s.feedName}>
-                  {f.sym}
-                  {f.stacked && <em className={s.feedSubType}>{f.type}</em>}
-                </span>
-                <span className={s.feedType}>{!f.stacked && f.type}</span>
-                <span className={s.feedTime}>{f.time}</span>
-                <span
-                  className={
-                    f.level === "High" ? s.pillHigh : s.pillMedium
-                  }
-                >
-                  {f.level}
-                </span>
-              </li>
-            ))}
-          </ul>
-          <a className={s.cardLink} href="#market-intelligence">
-            View full live feed <ArrowRight className={s.linkArrow} />
-          </a>
-        </div>
-
-        <div className={`${s.card} ${s.cardRisk}`}>
-          <span className={s.cardTitle}>RISK LEVEL</span>
-          <div className={s.gauge}>
-            <svg viewBox="0 0 200 108" aria-hidden="true">
-              <defs>
-                <linearGradient id="riskArc" x1="0" y1="1" x2="1" y2="0">
-                  <stop offset="0%" stopColor="#006b3c" />
-                  <stop offset="60%" stopColor="#007a55" />
-                  <stop offset="100%" stopColor="#00a76f" />
-                </linearGradient>
-              </defs>
-              <path
-                d="M18 100a82 82 0 0 1 164 0"
-                fill="none"
-                stroke="#dff4ea"
-                strokeWidth="22"
-                strokeLinecap="round"
-              />
-              <path
-                d="M18 100a82 82 0 0 1 164 0"
-                fill="none"
-                stroke="url(#riskArc)"
-                strokeWidth="22"
-                strokeLinecap="round"
-                strokeDasharray="258"
-                strokeDashoffset="72"
-              />
-            </svg>
-            <span className={s.gaugeValue}>LOW</span>
-            <span className={s.gaugeSub}>Well Balanced</span>
-          </div>
-          <div className={s.riskFoot}>
-            <span>Volatility Normal</span>
-            <span className={s.riskDivider} />
-            <span>Risk Score 28/100</span>
-          </div>
-        </div>
-
-        {/* ── feature strip ──────────────────────────────────── */}
-        <div className={s.features}>
-          {FEATURES.map(({ Icon, title, body, halo }) => (
-            <div key={title} className={s.feature}>
-              <span className={halo ? s.featIconHalo : s.featIcon}>
-                <Icon className={s.featSvg} />
-              </span>
-              <span>
-                <span className={s.featTitle}>{title}</span>
-                {body.map((line) => (
-                  <span key={line} className={s.featLine}>
-                    {line}
-                  </span>
-                ))}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* ── Trust strip ─────────────────────────────────────── */}
-      <div className={s.trust}>
-        <div className={s.trustLeft}>
-          <span className={`${s.trustKicker} ${s.trustKickerWide}`}>
-            TRUSTED BY TRADERS ACROSS THE GLOBE
-          </span>
-          <div className={s.trustRow}>
-            {TRUST.map(({ Icon, value, label }) => (
-              <div key={label} className={s.trustItem}>
-                <Icon className={s.trustIcon} />
-                <span>
-                  <span className={s.trustValue}>{value}</span>
-                  <span className={s.trustLabel}>{label}</span>
-                </span>
+          <p className={s.eyebrow}><i /> SMARTER ALERTS. BETTER TRADES.</p>
+          <h1>Real-Time Share<br />Market <span>Alerts</span><br />That Give You Edge</h1>
+          <p className={s.description}>Get real-time stock alerts, expert insights, and market updates<br className={s.desktopBreak} /> designed to help you make smarter trading decisions.</p>
+          <div className={s.benefits} id="features">
+            {BENEFITS.map(([icon, title, body]) => (
+              <div className={s.benefit} data-hero-benefit="true" key={title}>
+                <span className={s.benefitIcon}><Mark name={icon} /></span>
+                <span><strong>{title}</strong><small>{body}</small></span>
               </div>
             ))}
-            <div className={`${s.trustItem} ${s.trustRating}`}>
-              <span>
-                <span className={s.stars}>
-                  {[0, 1, 2, 3, 4].map((i) => (
-                    <Star key={i} className={s.star} />
-                  ))}
-                </span>
-                <span className={s.trustValue}>4.9/5</span>
-                <span className={s.trustLabel}>User Rating</span>
-              </span>
-            </div>
+          </div>
+          <div className={s.ctas}>
+            <a className={s.primaryCta} href="#pricing">Start Free Trial <span>→</span></a>
+            <a className={s.secondaryCta} href="#market-intelligence"><i>▶</i> Watch Demo</a>
+          </div>
+          <div className={s.assurances}>
+            <span><i className={s.assuranceCheck}>✓</i>No Credit Card Required</span>
+            <span><i className={s.assuranceCheck}>✓</i>14-Day Free Trial</span>
+            <span><i className={s.assuranceCheck}>✓</i>Cancel Anytime</span>
           </div>
         </div>
+        <MarketCard />
+      </div>
 
-        <div className={s.trustRight}>
-          <span className={s.trustKicker}>DATA &amp; TECHNOLOGY PARTNERS</span>
-          <div className={s.partners}>
-            {PARTNERS.map((p) => (
-              <span key={p.name} className={s.partner}>
-                <PartnerMark kind={p.mark} className={s.partnerGlyph} />
-                {p.name}
-              </span>
-            ))}
+      <div className={s.stats}>
+        {STATS.map(([icon, value, label]) => (
+          <div className={s.stat} data-hero-stat="true" key={label}>
+            <Mark name={icon} /><span><strong>{value}</strong><small>{label}</small></span>
           </div>
-        </div>
+        ))}
       </div>
-      </div>
-      <MobileHero />
-    </>
+    </section>
   );
 }

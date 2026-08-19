@@ -114,6 +114,10 @@ function KpiCard({ card }) {
 function TrackerTable({ rows, fallbackUpdatedAt }) {
   return (
     <div className={s.tableShell}>
+      <div className={s.tableTopline}>
+        <div><span>LIVE ISSUE BOARD</span><h3>IPO watchlist</h3></div>
+        <span className={s.liveBadge}><i /> Live provider</span>
+      </div>
       <table className={s.trackerTable}>
         <colgroup>
           <col className={s.companyColumn} />
@@ -193,19 +197,23 @@ export default function IpoMarketIntelligence() {
     >
       <div className={s.canvas}>
         <header className={s.header}>
+          <span className={s.eyebrow}><i /> LIVE IPO INTELLIGENCE</span>
           <h2 id="ipo-market-intelligence-title">IPO GMP Tracker</h2>
           <p>Grey Market Premium Overview</p>
-          <span className={s.titleRule} aria-hidden="true" />
+          <p className={s.intro}>Track unofficial market sentiment before listing, with issue pricing and estimated listing performance in one focused view.</p>
         </header>
 
-        <div className={s.datePanel} aria-label="Report date and time">
-          <span className={s.calendarIcon}><Icon name="calendar" /></span>
-          <div className={s.dateCopy}><strong>{report.date}</strong><span>{report.day}</span></div>
-          <span className={s.dateDivider} aria-hidden="true" />
-          <strong className={s.time}>{report.time}</strong>
-        </div>
+        <aside className={s.heroGmp} aria-label="Highest current GMP">
+          <div className={s.gmpTopline}><span>HIGHEST GMP %</span><i><Icon name="trend" /></i></div>
+          <strong className={s.gmpValue}>{highest?.gmpPercent == null ? "Awaiting live GMP" : `${numberFormat.format(highest.gmpPercent)}%`}</strong>
+          <p>{highest?.company || "The live provider has not published a grey market premium yet."}</p>
+          <div className={s.gmpMeta}>
+            <span><small>LAST UPDATE</small><strong>{report.date}, {report.time}</strong></span>
+            <span><small>STATUS</small><strong>{highest ? "Live premium" : "Provider pending"}</strong></span>
+          </div>
+        </aside>
 
-        <div className={s.kpiGrid} aria-label="IPO summary">
+        <div className={s.marketStrip} aria-label="IPO summary">
           {kpiCards.map((card) => <KpiCard card={card} key={card.label} />)}
         </div>
 
